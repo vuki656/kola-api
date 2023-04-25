@@ -2,15 +2,16 @@ import { faker } from '@faker-js/faker'
 import type { Prisma } from '@prisma/client'
 
 import { orm } from '../../orm'
+
 import { UserFactory } from './user.factory'
 
 export const ListingFactory = {
     build: (input?: Partial<Prisma.ListingCreateWithoutAuthorInput>) => {
         return {
-            updatedAt: new Date(),
             description: faker.lorem.sentence(),
+            price: faker.datatype.number({ max: 55_000, min: 0 }),
             title: faker.lorem.words(),
-            price: faker.datatype.number({ min: 0, max: 55_000 }),
+            updatedAt: new Date(),
             ...input,
         } satisfies Partial<Prisma.ListingCreateWithoutAuthorInput>
     },
@@ -35,8 +36,8 @@ export const ListingFactory = {
                     ...ListingFactory.build(input),
                     author: {
                         create: UserFactory.build(),
-                    }
-                }
+                    },
+                },
             })
         })
 

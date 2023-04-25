@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker'
 
-import { ListingFactory, UserFactory } from '../../../shared/test/factories'
+import {
+    ListingFactory,
+    UserFactory,
+} from '../../../shared/test/factories'
 import type {
     CreateUserInput,
     CreateUserMutation,
@@ -12,6 +15,7 @@ import type {
     UpdateUserMutationVariables,
     UserListingsQuery,
     UserListingsQueryVariables,
+    UserPayloadFragment,
     UserQuery,
     UserQueryVariables,
     UsersQuery,
@@ -29,8 +33,8 @@ import {
 } from './mutations.graphql'
 import {
     USER,
-    USERS,
     USER_LISTINGS,
+    USERS,
 } from './queries.graphql'
 
 describe('User resolver', () => {
@@ -55,7 +59,7 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.user).toMatchObject({
+            expect(response.body?.singleResult.data?.user).toMatchObject<UserPayloadFragment>({
                 email: user.email,
                 firstName: user.firstName,
                 id: user.id,
@@ -66,8 +70,8 @@ describe('User resolver', () => {
         it('should return users listings', async () => {
             const user = await UserFactory.create({
                 listings: {
-                    create: ListingFactory.build()
-                }
+                    create: ListingFactory.build(),
+                },
             })
 
             const response = await executeOperation<
@@ -104,7 +108,7 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.deleteUser.user).toMatchObject({
+            expect(response.body?.singleResult.data?.deleteUser.user).toMatchObject<UserPayloadFragment>({
                 email: user.email,
                 firstName: user.firstName,
                 id: user.id,
@@ -150,7 +154,7 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.createUser.user).toMatchObject({
+            expect(response.body?.singleResult.data?.createUser.user).toMatchObject<UserPayloadFragment>({
                 email: input.email,
                 firstName: input.firstName,
                 id: expect.any(String),

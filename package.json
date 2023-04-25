@@ -43,6 +43,7 @@
         "@rimac-technology/style-guide": "^7.0.0",
         "@types/eslint": "^8.37.0",
         "@types/jest": "^29.5.1",
+        "@types/node": "^18.16.0",
         "@types/prettier": "^2.7.2",
         "cspell": "^6.31.1",
         "eslint": "^8.39.0",

@@ -7,6 +7,7 @@ const config: JestConfigWithTsJest = {
     testEnvironment: 'node',
     testMatch: ['**/*.test.ts'],
     verbose: false,
+    collectCoverage: false,
 }
 
 module.exports = config
