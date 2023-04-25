@@ -7,7 +7,9 @@
         "database:migrate": "docker compose run --no-deps --rm migration",
         "database:setup": "docker compose run --rm migration",
         "database:sync": "prisma db pull && prettier --write './src/database/schema.prisma'",
+        "dev": "nodemon",
         "generate:template": "plop",
+        "generate:types:dev": "graphql-codegen --config='./codegen.ts'",
         "generate:types:orm": "prisma generate",
         "lint": "yarn lint:cspell && yarn lint:prettier && yarn lint:package-json && yarn lint:eslint",
         "lint:cspell": "cspell --no-progress --no-summary '**'",
@@ -16,21 +18,36 @@
         "lint:prettier": "prettier --loglevel warn --check './**/*{yaml,yml,json,md,graphql}'"
     },
     "dependencies": {
+        "@apollo/server": "^4.7.0",
         "@prisma/client": "^4.13.0",
         "date-fns": "^2.29.3",
-        "graphql": "^16.6.0"
+        "dotenv": "^16.0.3",
+        "envalid": "^7.3.1",
+        "graphql": "^16.6.0",
+        "graphql-scalars": "^1.21.3",
+        "pino": "^8.11.0",
+        "zod": "^3.21.4"
     },
     "devDependencies": {
+        "@graphql-codegen/add": "^4.0.1",
+        "@graphql-codegen/cli": "^3.3.1",
+        "@graphql-codegen/graphql-modules-preset": "^3.1.3",
+        "@graphql-codegen/typescript-resolvers": "^3.2.1",
         "@graphql-eslint/eslint-plugin": "^3.18.0",
+        "@graphql-tools/load-files": "^6.6.1",
+        "@graphql-tools/merge": "^8.4.1",
         "@rimac-technology/style-guide": "^7.0.0",
         "@types/eslint": "^8.37.0",
         "@types/prettier": "^2.7.2",
         "cspell": "^6.31.1",
         "eslint": "^8.39.0",
+        "nodemon": "^2.0.22",
         "npm-package-json-lint": "^6.4.0",
+        "pino-pretty": "^10.0.0",
         "plop": "^3.1.2",
         "prettier": "^2.8.8",
-        "prisma": "^4.13.0"
+        "prisma": "^4.13.0",
+        "typescript": "^5.0.4"
     },
     "packageManager": "yarn@3.5.0",
     "prisma": {

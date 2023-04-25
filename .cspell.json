@@ -3,5 +3,18 @@
     "cache": {
         "useCache": true
     },
-    "ignoreWords": ["vuki", "packagerc", "rimac", "loglevel"]
+    "ignoreWords": [
+        "vuki",
+        "packagerc",
+        "rimac",
+        "loglevel",
+        "pino",
+        "codegen",
+        "healthcheck",
+        "liquibase",
+        "envalid",
+        "ossp",
+        "dbgenerated",
+        "datasource"
+    ]
 }

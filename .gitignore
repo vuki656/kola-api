@@ -11,6 +11,11 @@ node_modules
 
 # Caches
 .cspellcache
+.eslintcache
 
 # Env
 .env
+
+# Generated
+*.generated.*
+schema.graphql

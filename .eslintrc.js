@@ -11,7 +11,6 @@ module.exports = {
                 '@graphql-eslint/no-scalar-result-type-on-mutation': 'off',
                 '@graphql-eslint/require-description': 'off',
                 '@graphql-eslint/require-field-of-type-query-in-mutation-result': 'off',
-                '@graphql-eslint/input-name': 'off',
                 '@graphql-eslint/strict-id-in-types': [
                     'error',
                     {
@@ -27,9 +26,6 @@ module.exports = {
             },
         },
         {
-            excludedFiles: [
-                './lib/**/*',
-            ],
             extends: [require.resolve('@rimac-technology/style-guide/eslint/core')],
             files: ['./**/*.{js,ts,mjs}'],
             parser: '@typescript-eslint/parser',
@@ -38,4 +34,5 @@ module.exports = {
             },
         },
     ],
+    ignorePatterns: ['*generated*'],
 }

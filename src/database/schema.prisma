@@ -19,11 +19,11 @@ model Listing {
 }
 
 model User {
-    id         String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
-    firstNname String    @map("first_name")
-    lastName   String    @map("last_name")
-    email      String
-    listings   Listing[]
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    firstName String    @map("first_name")
+    lastName  String    @map("last_name")
+    email     String
+    listings  Listing[]
 
     @@map("users")
 }

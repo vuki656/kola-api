@@ -1,0 +1,11 @@
+type CreateUserPayload {
+    user: User!
+}
+
+type DeleteUserPayload {
+    user: User!
+}
+
+type UpdateUserPayload {
+    user: User!
+}
