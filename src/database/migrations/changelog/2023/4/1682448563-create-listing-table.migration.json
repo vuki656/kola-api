@@ -1,0 +1,85 @@
+{
+    "$schema": "https://json.schemastore.org/liquibase-3.2.json",
+    "databaseChangeLog": [
+        {
+            "logicalFilePath": "1682448563-create-listing-table.migration.json",
+            "objectQuotingStrategy": "QUOTE_ALL_OBJECTS"
+        },
+        {
+            "changeSet": {
+                "id": "1682448563",
+                "author": "off.vukovic@gmail.com",
+                "comment": "create-listing-table",
+                "changes": [
+                    {
+                        "createTable": {
+                            "tableName": "listings",
+                            "columns": [
+                                {
+                                    "column": {
+                                        "name": "id",
+                                        "type": "uuid",
+                                        "defaultValueComputed": "public.uuid_generate_v4()",
+                                        "constraints": {
+                                            "nullable": false,
+                                            "primaryKey": true
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "title",
+                                        "type": "text",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "description",
+                                        "type": "text",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "price",
+                                        "type": "money",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "user_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "user_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__users",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "users"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
