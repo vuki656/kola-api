@@ -1,4 +1,5 @@
 {
     "name": "kola-api",
-    "repository": "git@github.com:vuki656/kola-api.git"
+    "repository": "git@github.com:vuki656/kola-api.git",
+    "packageManager": "yarn@3.5.0"
 }
