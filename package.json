@@ -6,7 +6,9 @@
     "scripts": {
         "database:migrate": "docker compose run --no-deps --rm migration",
         "database:setup": "docker compose run --rm migration",
+        "database:sync": "prisma db pull && prettier --write './src/database/schema.prisma'",
         "generate:template": "plop",
+        "generate:types:orm": "prisma generate",
         "lint": "yarn lint:cspell && yarn lint:prettier && yarn lint:package-json && yarn lint:eslint",
         "lint:cspell": "cspell --no-progress --no-summary '**'",
         "lint:eslint": "eslint './src/**/*.{js,ts,mjs,graphql}' --quiet --cache",
@@ -14,6 +16,7 @@
         "lint:prettier": "prettier --loglevel warn --check './**/*{yaml,yml,json,md,graphql}'"
     },
     "dependencies": {
+        "@prisma/client": "^4.13.0",
         "date-fns": "^2.29.3",
         "graphql": "^16.6.0"
     },
@@ -26,7 +29,11 @@
         "eslint": "^8.39.0",
         "npm-package-json-lint": "^6.4.0",
         "plop": "^3.1.2",
-        "prettier": "^2.8.8"
+        "prettier": "^2.8.8",
+        "prisma": "^4.13.0"
     },
-    "packageManager": "yarn@3.5.0"
+    "packageManager": "yarn@3.5.0",
+    "prisma": {
+        "schema": "./src/database/schema.prisma"
+    }
 }

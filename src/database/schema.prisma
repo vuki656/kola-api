@@ -1,0 +1,29 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DB_PRISMA_URL")
+}
+
+model Listing {
+    id          String  @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    title       String
+    description String
+    price       Decimal @db.Decimal
+    userFk      String  @map("user_fk") @db.Uuid
+    users       User    @relation(fields: [userFk], references: [id], onUpdate: Restrict, map: "FK_listings__users")
+
+    @@map("listings")
+}
+
+model User {
+    id         String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    firstNname String    @map("first_name")
+    lastName   String    @map("last_name")
+    email      String
+    listings   Listing[]
+
+    @@map("users")
+}

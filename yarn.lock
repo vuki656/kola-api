@@ -1083,6 +1083,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^4.13.0":
+  version: 4.13.0
+  resolution: "@prisma/client@npm:4.13.0"
+  dependencies:
+    "@prisma/engines-version": 4.13.0-50.1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 74e2ede6308d6f70dc6244c34d13cf5f6c8da4f1a1ffe42a26192675ecac02733cb5482518d2a37fa057f160873fe8d42f5e3a08fc45d52b1eb386522bdbec0b
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:4.13.0-50.1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a":
+  version: 4.13.0-50.1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
+  resolution: "@prisma/engines-version@npm:4.13.0-50.1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a"
+  checksum: cc583fe956b65fd4548082917f14ccf1c3c54d6b26623583f5e63298a8b4b5a492ba90597123af1fc272115621cb7340e2d708d5b5e252f59139b35f0df00abe
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:4.13.0":
+  version: 4.13.0
+  resolution: "@prisma/engines@npm:4.13.0"
+  checksum: 6c2315dc1e1a8a07f02a074ee6898a66a96a3bbbb4341224cb1dc966da3959c2ee7557131a2ce37fd559c53d210b904b72c4559474e017438e6753d480c3cfe1
+  languageName: node
+  linkType: hard
+
 "@prisma/prisma-fmt-wasm@npm:4.12.0-67.659ef412370fa3b41cd7bf6e94587c1dfb7f67e7":
   version: 4.12.0-67.659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
   resolution: "@prisma/prisma-fmt-wasm@npm:4.12.0-67.659ef412370fa3b41cd7bf6e94587c1dfb7f67e7"
@@ -4467,6 +4495,7 @@ __metadata:
   resolution: "kola-api@workspace:."
   dependencies:
     "@graphql-eslint/eslint-plugin": ^3.18.0
+    "@prisma/client": ^4.13.0
     "@rimac-technology/style-guide": ^7.0.0
     "@types/eslint": ^8.37.0
     "@types/prettier": ^2.7.2
@@ -4477,6 +4506,7 @@ __metadata:
     npm-package-json-lint: ^6.4.0
     plop: ^3.1.2
     prettier: ^2.8.8
+    prisma: ^4.13.0
   languageName: unknown
   linkType: soft
 
@@ -5416,6 +5446,18 @@ __metadata:
   bin:
     prettier: bin-prettier.js
   checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
+  languageName: node
+  linkType: hard
+
+"prisma@npm:^4.13.0":
+  version: 4.13.0
+  resolution: "prisma@npm:4.13.0"
+  dependencies:
+    "@prisma/engines": 4.13.0
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: b735dd19842da1dfe5b3411551665db5f2a419ee5e67136dfc2c8cae3c7fe0f885b472b0f9decb3adb4af83260c51a605ecca8f2194805804e020c382096a75a
   languageName: node
   linkType: hard
 
