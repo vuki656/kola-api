@@ -9,6 +9,19 @@ import {
 import type { ListingModule } from './resolver-types.generated'
 
 const ListingResolver: ListingModule.Resolvers = {
+    Listing: {
+        author: (parent) => {
+            return orm.user.findFirstOrThrow({
+                where: {
+                    listings: {
+                        some: {
+                            id: parent.id,
+                        },
+                    },
+                },
+            })
+        },
+    },
     Mutation: {
         createListing: async (_, variables) => {
             const { input } = createListingMutationValidation.parse(variables)
