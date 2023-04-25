@@ -1,19 +1,12 @@
 import { z } from 'zod'
 
-// TODO: remove limits
 export const createUserMutationValidation = z.object({
     input: z.object({
         email: z
             .string()
             .email(),
-        firstName: z
-            .string()
-            .min(3)
-            .max(255),
-        lastName: z
-            .string()
-            .min(3)
-            .max(255),
+        firstName: z.string(),
+        lastName: z.string()
     }),
 })
 
@@ -22,17 +15,11 @@ export const updateUserMutationValidation = z.object({
         email: z
             .string()
             .email(),
-        firstName: z
-            .string()
-            .min(3)
-            .max(255),
+        firstName: z.string(),
         id: z
             .string()
             .uuid(),
-        lastName: z
-            .string()
-            .min(3)
-            .max(255),
+        lastName: z.string()
     }),
 })
 
