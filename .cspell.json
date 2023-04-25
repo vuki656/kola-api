@@ -1,0 +1,7 @@
+{
+    "useGitignore": true,
+    "cache": {
+        "useCache": true
+    },
+    "ignoreWords": ["vuki", "packagerc", "rimac", "loglevel"]
+}
