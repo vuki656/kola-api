@@ -73,6 +73,17 @@ const UserResolver: UserModule.Resolvers = {
             return orm.user.findMany()
         },
     },
+    User: {
+        listings: async (parent) => {
+            return orm.listing.findMany({
+                where: {
+                    author: {
+                        id: parent.id,
+                    },
+                },
+            })
+        },
+    },
 }
 
 export default UserResolver
