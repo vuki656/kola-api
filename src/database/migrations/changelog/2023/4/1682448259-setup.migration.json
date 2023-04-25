@@ -1,0 +1,32 @@
+{
+    "$schema": "https://json.schemastore.org/liquibase-3.2.json",
+    "databaseChangeLog": [
+        {
+            "logicalFilePath": "1682448259-setup.migration.json",
+            "objectQuotingStrategy": "QUOTE_ALL_OBJECTS"
+        },
+        {
+            "changeSet": {
+                "id": "1682448259",
+                "author": "off.vukovic@gmail.com",
+                "comment": "setup",
+                "changes": [
+                    {
+                        "changes": [
+                            {
+                                "sql": {
+                                    "sql": "CREATE SCHEMA kola"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "sql": {
+                            "sql": "CREATE EXTENSION \"uuid-ossp\" SCHEMA public"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
