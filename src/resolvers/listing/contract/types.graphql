@@ -4,4 +4,5 @@ type Listing {
     id: ID!
     price: NonNegativeFloat!
     title: String!
+    createdAt: DateTime!
 }
