@@ -5,7 +5,7 @@ import {
     deleteListingMutationValidation,
     listingQueryValidation,
     updateListingMutationValidation,
-} from './list.validation'
+} from './listing.validation'
 import type { ListingModule } from './resolver-types.generated'
 
 const ListingResolver: ListingModule.Resolvers = {

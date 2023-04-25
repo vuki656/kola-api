@@ -1,8 +1,8 @@
 type Listing {
     author: User!
+    createdAt: DateTime!
     description: String!
     id: ID!
     price: NonNegativeFloat!
     title: String!
-    createdAt: DateTime!
 }

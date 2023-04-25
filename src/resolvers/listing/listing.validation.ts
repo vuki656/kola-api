@@ -9,9 +9,7 @@ export const createListingMutationValidation = z.object({
         price: z
             .number()
             .nonnegative(),
-        title: z
-            .string()
-            .email(),
+        title: z.string(),
     }),
 })
 
@@ -24,9 +22,7 @@ export const updateListingMutationValidation = z.object({
         price: z
             .number()
             .nonnegative(),
-        title: z
-            .string()
-            .email(),
+        title: z.string(),
     }),
 })
 
