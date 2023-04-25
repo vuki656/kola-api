@@ -13,7 +13,7 @@ model Listing {
     description String
     price       Decimal @db.Decimal
     userFk      String  @map("user_fk") @db.Uuid
-    users       User    @relation(fields: [userFk], references: [id], onUpdate: Restrict, map: "FK_listings__users")
+    author      User    @relation(fields: [userFk], references: [id], onUpdate: Restrict, map: "FK_listings__users")
 
     @@map("listings")
 }

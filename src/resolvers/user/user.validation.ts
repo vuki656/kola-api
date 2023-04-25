@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+// TODO: remove limits
 export const createUserMutationValidation = z.object({
     input: z.object({
         email: z

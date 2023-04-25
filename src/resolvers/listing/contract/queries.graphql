@@ -1,0 +1,4 @@
+type Query {
+    listing(args: ListingArgs!): Listing!
+    listings: [Listing!]!
+}

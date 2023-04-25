@@ -1,0 +1,17 @@
+input CreateListingInput {
+    description: String!
+    price: NonNegativeFloat!
+    title: String!
+    userId: ID!
+}
+
+input UpdateListingInput {
+    description: String!
+    id: ID!
+    price: NonNegativeFloat!
+    title: String!
+}
+
+input DeleteListingInput {
+    id: ID!
+}

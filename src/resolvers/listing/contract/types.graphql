@@ -1,0 +1,6 @@
+type Listing {
+    description: String!
+    id: ID!
+    price: NonNegativeFloat!
+    title: String!
+}

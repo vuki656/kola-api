@@ -2,7 +2,10 @@ import { join } from 'path'
 
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeTypeDefs } from '@graphql-tools/merge'
-import { DateTimeTypeDefinition } from 'graphql-scalars'
+import {
+    DateTimeTypeDefinition,
+    NonPositiveFloatTypeDefinition,
+} from 'graphql-scalars'
 
 const contractTypeDefinitions = loadFilesSync(
     join(
@@ -14,5 +17,6 @@ const contractTypeDefinitions = loadFilesSync(
 
 export const typeDefs = mergeTypeDefs([
     DateTimeTypeDefinition,
+    NonPositiveFloatTypeDefinition,
     contractTypeDefinitions,
 ])

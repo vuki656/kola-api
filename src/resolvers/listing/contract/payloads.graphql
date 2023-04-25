@@ -1,0 +1,11 @@
+type CreateListingPayload {
+    listing: Listing!
+}
+
+type UpdateListingPayload {
+    listing: Listing!
+}
+
+type DeleteListingPayload {
+    listing: Listing!
+}

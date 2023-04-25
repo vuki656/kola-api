@@ -1,0 +1,5 @@
+type Mutation {
+    createListing(input: CreateListingInput!): CreateListingPayload!
+    deleteListing(input: DeleteListingInput!): DeleteListingPayload!
+    updateListing(input: UpdateListingInput!): UpdateListingPayload!
+}
