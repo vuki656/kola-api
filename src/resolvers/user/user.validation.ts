@@ -6,7 +6,7 @@ export const createUserMutationValidation = z.object({
             .string()
             .email(),
         firstName: z.string(),
-        lastName: z.string()
+        lastName: z.string(),
     }),
 })
 
@@ -19,7 +19,7 @@ export const updateUserMutationValidation = z.object({
         id: z
             .string()
             .uuid(),
-        lastName: z.string()
+        lastName: z.string(),
     }),
 })
 

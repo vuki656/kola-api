@@ -18,6 +18,7 @@ const UserResolver: UserModule.Resolvers = {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
+                    updatedAt: new Date(),
                 },
             })
 
@@ -46,6 +47,7 @@ const UserResolver: UserModule.Resolvers = {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
+                    updatedAt: new Date(),
                 },
                 where: {
                     id: input.id,

@@ -23,6 +23,7 @@ const ListingResolver: ListingModule.Resolvers = {
                     description: input.description,
                     price: input.price,
                     title: input.title,
+                    updatedAt: new Date(),
                 },
             })
 
@@ -51,6 +52,7 @@ const ListingResolver: ListingModule.Resolvers = {
                     description: input.description,
                     price: input.price,
                     title: input.title,
+                    updatedAt: new Date(),
                 },
                 where: {
                     id: input.id,

@@ -61,6 +61,25 @@
                                             "nullable": false
                                         }
                                     }
+                                },
+                                {
+                                    "column": {
+                                        "name": "created_at",
+                                        "type": "timestamp",
+                                        "defaultValueComputed": "timezone('utc', now())",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "updated_at",
+                                        "type": "timestamp",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
                                 }
                             ]
                         }
