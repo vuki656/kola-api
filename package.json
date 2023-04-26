@@ -6,7 +6,7 @@
     "repository": "git@github.com:vuki656/kola-api.git",
     "license": "UNLICENSED",
     "scripts": {
-        "schema:build": "ts-node ./src/server/buildSchema.ts",
+        "schema:build": "ts-node ./src/server/buildSchema.ts && prettier --write ./schema.graphql",
         "database:migrate": "docker compose run --no-deps --rm migration",
         "database:setup": "docker compose run --rm migration",
         "database:sync": "prisma db pull && prettier --write './src/database/schema.prisma'",
@@ -25,6 +25,7 @@
     "dependencies": {
         "@apollo/server": "^4.7.0",
         "@prisma/client": "^4.13.0",
+        "bcrypt": "^5.1.0",
         "date-fns": "^2.29.3",
         "dotenv": "^16.0.3",
         "envalid": "^7.3.1",
@@ -44,6 +45,7 @@
         "@graphql-tools/load-files": "^6.6.1",
         "@graphql-tools/merge": "^8.4.1",
         "@rimac-technology/style-guide": "^7.0.0",
+        "@types/bcrypt": "^5.0.0",
         "@types/eslint": "^8.37.0",
         "@types/jest": "^29.5.1",
         "@types/node": "^18.16.0",

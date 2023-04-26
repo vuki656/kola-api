@@ -7,6 +7,7 @@ export const createUserMutationValidation = z.object({
             .email(),
         firstName: z.string(),
         lastName: z.string(),
+        password: z.string(),
     }),
 })
 

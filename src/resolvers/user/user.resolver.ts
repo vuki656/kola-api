@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { orm } from '../../shared/orm'
 
 import type { UserModule } from './resolver-types.generated'
@@ -13,12 +14,15 @@ const UserResolver: UserModule.Resolvers = {
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 
+            const passwordHash = await bcrypt.hash(input.password, 10)
+
             const user = await orm.user.create({
                 data: {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
                     updatedAt: new Date(),
+                    password: passwordHash,
                 },
             })
 
