@@ -1,2 +1,3 @@
 -   [ ] Input limits
 -   [ ] Database limits
+-   [ ] Auth
