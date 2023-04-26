@@ -9,3 +9,7 @@ type DeleteUserPayload {
 type UpdateUserPayload {
     user: User!
 }
+
+type LoginUserPayload {
+    token: String!
+}

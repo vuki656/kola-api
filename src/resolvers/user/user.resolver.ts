@@ -1,10 +1,19 @@
-import bcrypt from 'bcrypt'
+import {
+    compare,
+    hash,
+} from 'bcrypt'
+import { GraphQLError } from 'graphql'
+import { sign } from 'jsonwebtoken'
+
+import env from '../../shared/env'
 import { orm } from '../../shared/orm'
+import type { TokenDataType } from '../../shared/types'
 
 import type { UserModule } from './resolver-types.generated'
 import {
     createUserMutationValidation,
     deleteUserMutationValidation,
+    loginUserMutationValidation,
     updateUserMutationValidation,
     userQueryValidation,
 } from './user.validation'
@@ -14,15 +23,15 @@ const UserResolver: UserModule.Resolvers = {
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 
-            const passwordHash = await bcrypt.hash(input.password, 10)
+            const passwordHash = await hash(input.password, 10)
 
             const user = await orm.user.create({
                 data: {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
-                    updatedAt: new Date(),
                     password: passwordHash,
+                    updatedAt: new Date(),
                 },
             })
 
@@ -41,6 +50,39 @@ const UserResolver: UserModule.Resolvers = {
 
             return {
                 user,
+            }
+        },
+        loginUser: async (_, variables) => {
+            const { input } = loginUserMutationValidation.parse(variables)
+
+            const user = await orm.user.findUnique({
+                where: {
+                    email: input.email,
+                },
+            })
+
+            if (!user) {
+                throw new GraphQLError('User not found')
+            }
+
+            const isPasswordValid = await compare(input.password, user.password)
+
+            if (!isPasswordValid) {
+                throw new GraphQLError('Invalid password')
+            }
+
+            const tokenData: TokenDataType = {
+                user,
+            }
+
+            const token = sign(
+                tokenData,
+                env.APP_JWT_SECRET,
+                { expiresIn: env.APP_JWT_DURATION_SEC }
+            )
+
+            return {
+                token,
             }
         },
         updateUser: async (_, variables) => {

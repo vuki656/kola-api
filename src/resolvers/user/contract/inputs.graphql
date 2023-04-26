@@ -15,3 +15,8 @@ input UpdateUserInput {
 input DeleteUserInput {
     id: ID!
 }
+
+input LoginUserInput {
+    email: String!
+    password: String!
+}

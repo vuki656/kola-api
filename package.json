@@ -6,7 +6,6 @@
     "repository": "git@github.com:vuki656/kola-api.git",
     "license": "UNLICENSED",
     "scripts": {
-        "schema:build": "ts-node ./src/server/buildSchema.ts && prettier --write ./schema.graphql",
         "database:migrate": "docker compose run --no-deps --rm migration",
         "database:setup": "docker compose run --rm migration",
         "database:sync": "prisma db pull && prettier --write './src/database/schema.prisma'",
@@ -20,6 +19,7 @@
         "lint:eslint": "eslint './src/**/*.{js,ts,mjs,graphql}' --quiet --cache",
         "lint:package-json": "npmPkgJsonLint --configFile ./.packagerc.js .",
         "lint:prettier": "prettier --loglevel warn --check './**/*{yaml,yml,json,md,graphql}'",
+        "schema:build": "ts-node ./src/server/buildSchema.ts && prettier --write ./schema.graphql",
         "test:integration": "jest --runInBand --config jest.integration.config.ts"
     },
     "dependencies": {
@@ -31,6 +31,7 @@
         "envalid": "^7.3.1",
         "graphql": "^16.6.0",
         "graphql-scalars": "^1.21.3",
+        "jsonwebtoken": "^9.0.0",
         "pino": "^8.11.0",
         "zod": "^3.21.4"
     },
@@ -48,6 +49,7 @@
         "@types/bcrypt": "^5.0.0",
         "@types/eslint": "^8.37.0",
         "@types/jest": "^29.5.1",
+        "@types/jsonwebtoken": "^9.0.1",
         "@types/node": "^18.16.0",
         "@types/prettier": "^2.7.2",
         "cspell": "^6.31.1",

@@ -32,6 +32,15 @@ export const deleteUserMutationValidation = z.object({
     }),
 })
 
+export const loginUserMutationValidation = z.object({
+    input: z.object({
+        email: z
+            .string()
+            .email(),
+        password: z.string(),
+    }),
+})
+
 export const userQueryValidation = z.object({
     args: z.object({
         id: z
