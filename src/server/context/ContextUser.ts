@@ -16,4 +16,8 @@ export class ContextUser {
 
         return this.value
     }
+
+    public clear() {
+        this.value = null
+    }
 }

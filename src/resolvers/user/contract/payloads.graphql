@@ -13,3 +13,7 @@ type UpdateUserPayload {
 type LoginUserPayload {
     token: String!
 }
+
+type LogoutUserPayload {
+    success: Boolean!
+}

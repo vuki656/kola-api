@@ -20,6 +20,13 @@ import {
 
 const UserResolver: UserModule.Resolvers = {
     Mutation: {
+        logoutUser: (_, __, context) => {
+            context.user.clear()
+
+            return {
+                success: true
+            }
+        },
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 
