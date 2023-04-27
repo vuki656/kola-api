@@ -2,10 +2,10 @@ import {
     compare,
     hash,
 } from 'bcrypt'
-import { GraphQLError } from 'graphql'
 import { sign } from 'jsonwebtoken'
 
 import env from '../../shared/env'
+import { InputError } from '../../shared/errors'
 import { orm } from '../../shared/orm'
 import type { TokenDataType } from '../../shared/types'
 
@@ -62,13 +62,13 @@ const UserResolver: UserModule.Resolvers = {
             })
 
             if (!user) {
-                throw new GraphQLError('User not found')
+                throw new InputError('Wrong username or password')
             }
 
             const isPasswordValid = await compare(input.password, user.password)
 
             if (!isPasswordValid) {
-                throw new GraphQLError('Invalid password')
+                throw new InputError('Wrong username or password')
             }
 
             const tokenData: TokenDataType = {
@@ -106,6 +106,13 @@ const UserResolver: UserModule.Resolvers = {
         },
     },
     Query: {
+        currentUser: (_, __, context) => {
+            return orm.user.findUnique({
+                where: {
+                    id: context.user.nonNullValue.id,
+                },
+            })
+        },
         user: (_, variables) => {
             const { args } = userQueryValidation.parse(variables)
 

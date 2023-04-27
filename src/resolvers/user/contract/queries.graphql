@@ -1,4 +1,5 @@
 type Query {
+    currentUser: User
     user(args: UserArgs!): User!
     users: [User!]!
 }
