@@ -12,18 +12,26 @@ import {
     ApolloPluginLogger,
 } from './plugins'
 import { resolvers } from './resolvers'
+import {
+    apolloSecurityPlugins,
+    apolloSecuritySettings,
+    apolloSecurityValidationRules,
+} from './security'
 import { typeDefs } from './typeDefs'
 
 export const expressApp = express()
 export const httpServer = http.createServer(expressApp)
 
 export const apolloServer = new ApolloServer<Context>({
+    ...apolloSecuritySettings,
     logger,
     plugins: [
+        ...apolloSecurityPlugins,
         ApolloPluginLandingPage,
         ApolloPluginLogger,
         ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
     resolvers,
     typeDefs,
+    validationRules: apolloSecurityValidationRules,
 })
