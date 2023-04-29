@@ -32,14 +32,20 @@ const mockContext = async (input?: Partial<Prisma.UserCreateInput>): Promise<Par
     }
 }
 
-export const createContext = async (permission?: Permission): CreateContextValue => {
+export const createContext = async (permission?: Permission, input?: Partial<Prisma.UserCreateInput>): CreateContextValue => {
     switch (permission) {
         case 'isAdmin': {
-            return mockContext({ isAdmin: true })
+            return mockContext({ 
+                ...input,
+                isAdmin: true,
+            })
         }
 
         case 'isLoggedIn': {
-            return mockContext({ isAdmin: false })
+            return mockContext({
+                ...input,
+                isAdmin: false,
+            })
         }
 
         default: {

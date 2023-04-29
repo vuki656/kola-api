@@ -4,4 +4,7 @@ type User {
     id: ID!
     lastName: String!
     listings: [Listing!]!
+    oib: String!,
+    phoneNumber: String!
+    isAdmin: Boolean!
 }

@@ -3,8 +3,13 @@ import type { Prisma } from '@prisma/client'
 
 import { OIB_LENGTH } from '../../constants'
 import { orm } from '../../orm'
+import { hash } from 'bcrypt'
 
 export const UserFactory = {
+    password: {
+        raw: '123123123',
+        hash: '$2b$10$v0Dpt/lISq9GZJXcubjlree57ii/3KIEPKjkFjBCPaK8z/F1Mdwu.'
+    },
     build: (input?: Partial<Prisma.UserCreateInput>) => {
         return {
             email: faker.internet.email(),
@@ -12,13 +17,13 @@ export const UserFactory = {
             isAdmin: false,
             lastName: faker.name.lastName(),
             oib: faker.datatype.string(OIB_LENGTH),
-            password: faker.internet.password(),
+            password: UserFactory.password.hash,
             phoneNumber: faker.phone.number(),
             updatedAt: new Date(),
             ...input,
         } satisfies Prisma.UserCreateInput
     },
-    create: (input?: Partial<Prisma.UserCreateInput>) => {
+    create: async (input?: Partial<Prisma.UserCreateInput>) => {
         return orm.user.create({
             data: {
                 ...UserFactory.build(),

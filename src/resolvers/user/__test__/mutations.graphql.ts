@@ -34,3 +34,15 @@ export const DELETE_USER = gql`
     }
     ${USER_FRAGMENT}
 `
+
+export const LOGIN_USER = gql`
+    mutation LoginUser($input: LoginUserInput!) {
+        loginUser(input: $input) {
+            token
+            user {
+                ...UserPayload
+            }
+        }
+    }
+    ${USER_FRAGMENT}
+`

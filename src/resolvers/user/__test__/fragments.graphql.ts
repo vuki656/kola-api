@@ -6,6 +6,9 @@ export const USER_FRAGMENT = gql`
         firstName
         lastName
         email
+        phoneNumber
+        isAdmin
+        oib
     }
 `
 

@@ -36,7 +36,7 @@ export const executeOperation = async <
     // eslint-disable-next-line unicorn/prefer-default-parameters -- Not valid in this case
     const expectedType = expectedTypeProp ?? 'single'
 
-    const context = await createContext(request.permission)
+    const context = await createContext(request.permission, request.user)
 
     const response = await apolloServer.executeOperation<TData, TVariables>(request, {
         ...options, // It's fine to cast this since it complains about req/res missing and we don't use those since execute operation skips context resolution
