@@ -103,15 +103,6 @@ const UserResolver: UserModule.Resolvers = {
                 user,
             }
         },
-        logoutUser: (_, __, context) => {
-            checkPermissions(context, ['isLoggedIn'])
-
-            context.user.clear()
-
-            return {
-                success: true,
-            }
-        },
         updateUser: async (_, variables, context) => {
             checkPermissions(context, ['isLoggedIn'])
 

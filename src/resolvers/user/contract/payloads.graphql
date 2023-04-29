@@ -14,7 +14,3 @@ type LoginUserPayload {
     token: String!
     user: User!
 }
-
-type LogoutUserPayload {
-    success: Boolean!
-}
