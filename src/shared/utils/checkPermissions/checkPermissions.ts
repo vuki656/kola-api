@@ -11,19 +11,19 @@ export const checkPermissions = (context: Context, permissions: Permission[]) =>
     permissions.forEach((permission) => {
         switch (permission) {
             case 'user': {
-                if (!context.user.value) {
-                    throw new AuthenticationError()
+                if (context.user.value) {
+                    break
                 }
 
-                break
+                throw new AuthenticationError()
             }
 
             case 'admin': {
-                if (!context.user.value?.isAdmin) {
-                    throw new AuthorizationError()
+                if (context.user.value?.isAdmin) {
+                    break
                 }
 
-                break
+                throw new AuthorizationError()
             }
         }
     })
