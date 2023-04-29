@@ -23,14 +23,14 @@ const ListingResolver: ListingModule.Resolvers = {
         },
     },
     Mutation: {
-        createListing: async (_, variables) => {
+        createListing: async (_, variables, context) => {
             const { input } = createListingMutationValidation.parse(variables)
 
             const listing = await orm.listing.create({
                 data: {
                     author: {
                         connect: {
-                            id: input.authorId,
+                            id: context.user.nonNullValue.id
                         },
                     },
                     description: input.description,

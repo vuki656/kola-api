@@ -1,5 +1,4 @@
 input CreateListingInput {
-    authorId: ID!
     description: String!
     price: NonNegativeFloat!
     title: String!
