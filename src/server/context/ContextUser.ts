@@ -3,7 +3,7 @@ import { AuthenticationError } from '../../shared/errors'
 import type { TokenUser } from './context.types'
 
 export class ContextUser {
-    public value: TokenUser | null
+    public value: TokenUser | null = null
 
     constructor(user: TokenUser | null) {
         this.value = user

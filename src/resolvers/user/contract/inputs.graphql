@@ -2,7 +2,7 @@ input CreateUserInput {
     email: String!
     firstName: String!
     lastName: String!
-    oib: Int!
+    oib: String!
     password: String!
     phoneNumber: String!
 }
@@ -12,7 +12,7 @@ input UpdateUserInput {
     firstName: String!
     id: ID!
     lastName: String!
-    oib: Int!
+    oib: String!
     phoneNumber: String!
 }
 

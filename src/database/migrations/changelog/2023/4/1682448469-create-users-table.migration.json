@@ -75,7 +75,7 @@
                                 {
                                     "column": {
                                         "name": "oib",
-                                        "type": "INT(11)",
+                                        "type": "VARCHAR(11)",
                                         "constraints": {
                                             "nullable": false
                                         }

@@ -6,7 +6,7 @@ const config: JestConfigWithTsJest = {
     slowTestThreshold: 15,
     testEnvironment: 'node',
     testMatch: ['**/*.test.ts'],
-    verbose: false,
+    verbose: true,
     collectCoverage: false,
 }
 

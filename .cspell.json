@@ -17,6 +17,7 @@
         "dbgenerated",
         "datasource",
         "tablename",
-        "schemaname"
+        "schemaname",
+        "varchar"
     ]
 }

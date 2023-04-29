@@ -6,6 +6,7 @@ import type {
 import type { Context } from '../../../../server'
 import { apolloServer } from '../../../../server'
 
+import { createContext } from './createContext'
 import type {
     ExecuteOperationReturnType,
     IncrementalResponseReturnType,
@@ -35,7 +36,13 @@ export const executeOperation = async <
     // eslint-disable-next-line unicorn/prefer-default-parameters -- Not valid in this case
     const expectedType = expectedTypeProp ?? 'single'
 
-    const response = await apolloServer.executeOperation<TData, TVariables>(request, options)
+    const context = await createContext(request.permission)
+
+    const response = await apolloServer.executeOperation<TData, TVariables>(request, {
+        ...options, // It's fine to cast this since it complains about req/res missing and we don't use those since execute operation skips context resolution
+        contextValue: context as Context,
+    })
+
     const responseType = response.body.kind
 
     if (response.body.kind !== expectedType) {

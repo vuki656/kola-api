@@ -1,9 +1,10 @@
 import { z } from 'zod'
 
+import { OIB_LENGTH } from '../../shared/constants'
+
 const oibValidation = z
-    .number()
-    .min(11)
-    .max(11)
+    .string()
+    .length(OIB_LENGTH)
 
 export const createUserMutationValidation = z.object({
     input: z.object({

@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker'
 
+import { OIB_LENGTH } from '../../../shared/constants'
+import { ErrorCode } from '../../../shared/errors'
 import {
     ListingFactory,
     UserFactory,
@@ -99,6 +101,7 @@ describe('User resolver', () => {
                 DeleteUserMutation,
                 DeleteUserMutationVariables
             >({
+                permission: 'isAdmin',
                 query: DELETE_USER,
                 variables: {
                     input: {
@@ -114,6 +117,45 @@ describe('User resolver', () => {
                 id: user.id,
                 lastName: user.lastName,
             })
+        })
+
+        it('should throw an AUTHENTICATION error if user not logged in', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                DeleteUserMutation,
+                DeleteUserMutationVariables
+            >({
+                query: DELETE_USER,
+                variables: {
+                    input: {
+                        id: user.id,
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
+        it('should throw an AUTHORIZATION error if user not admin', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                DeleteUserMutation,
+                DeleteUserMutationVariables
+            >({
+                permission: 'isLoggedIn',
+                query: DELETE_USER,
+                variables: {
+                    input: {
+                        id: user.id,
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 
@@ -141,6 +183,9 @@ describe('User resolver', () => {
                 email: faker.internet.email(),
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
+                oib: faker.datatype.string(OIB_LENGTH),
+                password: faker.internet.password(),
+                phoneNumber: faker.phone.number(),
             }
 
             const response = await executeOperation<
@@ -172,6 +217,8 @@ describe('User resolver', () => {
                 firstName: faker.name.firstName(),
                 id: user.id,
                 lastName: faker.name.lastName(),
+                oib: faker.datatype.string(OIB_LENGTH),
+                phoneNumber: faker.phone.number(),
             }
 
             const response = await executeOperation<

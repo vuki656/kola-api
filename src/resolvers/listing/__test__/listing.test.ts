@@ -143,7 +143,6 @@ describe('Listing resolver', () => {
             const author = await UserFactory.create()
 
             const input: CreateListingInput = {
-                authorId: author.id,
                 description: faker.lorem.sentence(),
                 price: faker.datatype.number({ max: 55_000, min: 0 }),
                 title: faker.lorem.words(),

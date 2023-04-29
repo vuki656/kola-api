@@ -5,6 +5,7 @@ import type {
 } from '@apollo/server/dist/esm/externalTypes/graphql'
 
 import type { apolloServer } from '../../../../server'
+import type { Permission } from '../../../utils'
 
 type BaseResponse = {
     http: HTTPGraphQLHead
@@ -15,7 +16,9 @@ export type ResponseDataType = Record<string, unknown>
 export type RequestType<
     TData extends ResponseDataType,
     TVariables extends VariableValues
-> = Parameters<typeof apolloServer.executeOperation<TData, TVariables>>[0]
+> = Parameters<typeof apolloServer.executeOperation<TData, TVariables>>[0] & {
+    permission?: Permission
+}
 
 export type SingleResponseReturnType<TData extends ResponseDataType> = BaseResponse & {
     body?: Extract<GraphQLResponseBody<TData>, { kind: 'single' }>
