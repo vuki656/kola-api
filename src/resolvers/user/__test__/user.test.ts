@@ -60,6 +60,7 @@ describe('User resolver', () => {
                 UserQuery,
                 UserQueryVariables
             >({
+                permission: 'isLoggedIn',
                 query: USER,
                 variables: {
                     args: {
@@ -69,14 +70,38 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            // expect(response.body?.singleResult.data?.user).toMatchObject<UserPayloadFragment>({
-            //     email: user.email,
-            //     firstName: user.firstName,
-            //     id: user.id,
-            //     lastName: user.lastName,
-            // })
+            expect(response.body?.singleResult.data?.user).toMatchObject<UserPayloadFragment>({
+                email: user.email,
+                firstName: user.firstName,
+                id: user.id,
+                lastName: user.lastName,
+                isAdmin: user.isAdmin,
+                oib: user.oib,
+                phoneNumber: user.phoneNumber,
+            })
         })
 
+        it('should AUTHENTICATION error if not logged in', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                UserQuery,
+                UserQueryVariables
+            >({
+                query: USER,
+                variables: {
+                    args: {
+                        id: user.id,
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+    })
+
+    describe('when `user` `listings` field resolver is called', () => {
         it('should return users listings', async () => {
             const user = await UserFactory.create({
                 listings: {
@@ -88,6 +113,7 @@ describe('User resolver', () => {
                 UserListingsQuery,
                 UserListingsQueryVariables
             >({
+                permission: 'isLoggedIn',
                 query: USER_LISTINGS,
                 variables: {
                     args: {
@@ -98,6 +124,23 @@ describe('User resolver', () => {
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.user.listings).toHaveLength(1)
+        })
+
+        it('should return AUTHENTICATION error if not logged in', async () => {
+            const response = await executeOperation<
+                UserListingsQuery,
+                UserListingsQueryVariables
+            >({
+                query: USER_LISTINGS,
+                variables: {
+                    args: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 
