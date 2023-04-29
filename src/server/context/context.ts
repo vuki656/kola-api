@@ -1,6 +1,7 @@
+import type { ExpressContextFunctionArgument } from '@apollo/server/dist/esm/express4'
 import { verify } from 'jsonwebtoken'
 
-import env from '../../shared/env'
+import { env } from '../../shared/env'
 import { logger } from '../../shared/logger'
 
 import type {
@@ -9,11 +10,10 @@ import type {
 } from './context.types'
 import { cookieValidation } from './context.validation'
 import { ContextUser } from './ContextUser'
-import { ExpressContextFunctionArgument } from '@apollo/server/dist/esm/express4'
 
 // eslint-disable-next-line @typescript-eslint/require-await -- Apollo context has to be async
 export const context = async ({ req, res }: ExpressContextFunctionArgument): Promise<Context> => {
-    const [, token] = req.headers.authorization?.split(' ') ?? []
+    const [,token] = req.headers.cookie?.split('=') ?? []
 
     let user: ContextUserValue | null = null
 
@@ -24,7 +24,7 @@ export const context = async ({ req, res }: ExpressContextFunctionArgument): Pro
 
         user = parsedUser
     } catch (error: unknown) {
-        logger.trace({
+        logger.debug({
             error,
             message: 'Error while parsing auth header',
             req,
@@ -32,8 +32,8 @@ export const context = async ({ req, res }: ExpressContextFunctionArgument): Pro
     }
 
     return {
-        user: new ContextUser(user),
         req,
-        res
+        res,
+        user: new ContextUser(user),
     }
 }

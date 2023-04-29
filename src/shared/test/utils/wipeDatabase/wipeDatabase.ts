@@ -1,4 +1,4 @@
-import env from '../../../env'
+import { env } from '../../../env'
 import { logger } from '../../../logger'
 import { orm } from '../../../orm'
 

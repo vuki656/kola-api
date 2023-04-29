@@ -4,7 +4,7 @@ import {
 } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 
-import env from '../../shared/env'
+import { env } from '../../shared/env'
 import { InputError } from '../../shared/errors'
 import { orm } from '../../shared/orm'
 import type { TokenDataType } from '../../shared/types'
@@ -20,13 +20,6 @@ import {
 
 const UserResolver: UserModule.Resolvers = {
     Mutation: {
-        logoutUser: (_, __, context) => {
-            context.user.clear()
-
-            return {
-                success: true
-            }
-        },
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 
@@ -59,7 +52,7 @@ const UserResolver: UserModule.Resolvers = {
                 user,
             }
         },
-        loginUser: async (_, variables) => {
+        loginUser: async (_, variables, context) => {
             const { input } = loginUserMutationValidation.parse(variables)
 
             const user = await orm.user.findUnique({
@@ -88,8 +81,17 @@ const UserResolver: UserModule.Resolvers = {
                 { expiresIn: env.APP_JWT_DURATION_SEC }
             )
 
+            context.res.cookie('token', token)
+
             return {
                 token,
+            }
+        },
+        logoutUser: (_, __, context) => {
+            context.user.clear()
+
+            return {
+                success: true,
             }
         },
         updateUser: async (_, variables) => {

@@ -8,7 +8,7 @@ import {
     expressApp,
     httpServer,
 } from './server'
-import env from './shared/env'
+import { env } from './shared/env'
 import { logger } from './shared/logger'
 
 export async function startServer() {
@@ -17,7 +17,10 @@ export async function startServer() {
         .then(() => {
             expressApp.use(
                 '/',
-                cors(),
+                cors({
+                    credentials: true,
+                    origin: env.APP_CLIENT_ORIGINS,
+                }),
                 bodyParser.json({ limit: '50mb' }),
                 expressMiddleware(apolloServer, {
                     context,
