@@ -520,8 +520,9 @@ describe('User resolver', () => {
             })
 
             expect(changePasswordResponse.body?.singleResult.errors).toBeUndefined()
-            expect(loginResponse.body?.singleResult.errors).toBeUndefined()
             expect(changePasswordResponse.body?.singleResult.data?.changeUserPassword.success).toBe(true)
+
+            expect(loginResponse.body?.singleResult.errors).toBeUndefined()
             expect(loginResponse.body?.singleResult.data?.loginUser.token).toStrictEqual(expect.any(String))
             expect(loginResponse.body?.singleResult.data?.loginUser.user).toMatchObject<UserPayloadFragment>({
                 email: user.email,
