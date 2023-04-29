@@ -14,3 +14,7 @@ type LoginUserPayload {
     token: String!
     user: User!
 }
+
+type ChangeUserPasswordPayload {
+    success: Boolean!
+}

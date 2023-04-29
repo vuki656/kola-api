@@ -13,6 +13,7 @@ import { checkPermissions } from '../../shared/utils'
 import type { UserModule } from './resolver-types.generated'
 import { UserUtils } from './user.utils'
 import {
+    changeUserPasswordMutationValidation,
     createUserMutationValidation,
     deleteUserMutationValidation,
     loginUserMutationValidation,
@@ -22,6 +23,36 @@ import {
 
 const UserResolver: UserModule.Resolvers = {
     Mutation: {
+        changeUserPassword: async (_, variables, context) => {
+            const { input } = changeUserPasswordMutationValidation.parse(variables)
+
+            const user = await orm.user.findUniqueOrThrow({
+                where: {
+                    id: context.user.nonNullValue.id,
+                },
+            })
+
+            const isPasswordValid = await compare(input.currentPassword, user.password)
+
+            if (!isPasswordValid) {
+                throw new InputError('Wrong password')
+            }
+
+            const newPasswordHash = await hash(input.newPassword, 10)
+
+            await orm.user.update({
+                data: {
+                    password: newPasswordHash,
+                },
+                where: {
+                    id: context.user.nonNullValue.id,
+                },
+            })
+
+            return {
+                success: true,
+            }
+        },
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 

@@ -7,6 +7,8 @@ import {
     UserFactory,
 } from '../../../shared/test/factories'
 import type {
+    ChangeUserPasswordMutation,
+    ChangeUserPasswordMutationVariables,
     CreateUserInput,
     CreateUserMutation,
     CreateUserMutationVariables,
@@ -33,6 +35,7 @@ import {
 } from '../../../shared/test/utils'
 
 import {
+    CHANGE_USER_PASSWORD,
     CREATE_USER,
     DELETE_USER,
     LOGIN_USER,
@@ -45,8 +48,6 @@ import {
     USERS,
 } from './queries.graphql'
 
-// TODO: tests for other user shit
-// TODO: change password
 describe('User resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
@@ -74,8 +75,8 @@ describe('User resolver', () => {
                 email: user.email,
                 firstName: user.firstName,
                 id: user.id,
-                lastName: user.lastName,
                 isAdmin: user.isAdmin,
+                lastName: user.lastName,
                 oib: user.oib,
                 phoneNumber: user.phoneNumber,
             })
@@ -297,7 +298,7 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.users).toHaveLength(COUNT + 1) // + 1 for the auto created authorized user
         })
-        
+
         it('should throw an AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 UsersQuery,
@@ -322,7 +323,6 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
             expect(response.body?.singleResult.data).toBeNull()
         })
-
     })
 
     describe('when `currentUser` query is called', () => {
@@ -449,6 +449,7 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
             expect(response.body?.singleResult.data).toBeNull()
         })
+
         it('should throw an AUTHENTICATION error if not logged in', async () => {
             const input: UpdateUserInput = {
                 email: faker.internet.email(),
@@ -470,6 +471,82 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+    })
+
+    describe('when `changeUserPassword` mutation is called', () => {
+        it('should change user password', async () => {
+            const NEW_PASSWORD = faker.lorem.word()
+
+            const user = await UserFactory.create()
+
+            const changePasswordResponse = await executeOperation<
+                ChangeUserPasswordMutation,
+                ChangeUserPasswordMutationVariables
+            >({
+                permission: 'isLoggedIn',
+                query: CHANGE_USER_PASSWORD,
+                user: {
+                    id: user.id,
+                },
+                variables: {
+                    input: {
+                        currentPassword: UserFactory.password.raw,
+                        newPassword: NEW_PASSWORD,
+                    },
+                },
+            })
+
+            const loginResponse = await executeOperation<
+                LoginUserMutation,
+                LoginUserMutationVariables
+            >({
+                query: LOGIN_USER,
+                variables: {
+                    input: {
+                        email: user.email,
+                        password: NEW_PASSWORD,
+                    },
+                },
+            })
+
+            expect(changePasswordResponse.body?.singleResult.errors).toBeUndefined()
+            expect(loginResponse.body?.singleResult.errors).toBeUndefined()
+            expect(changePasswordResponse.body?.singleResult.data?.changeUserPassword.success).toBe(true)
+            expect(loginResponse.body?.singleResult.data?.loginUser.token).toStrictEqual(expect.any(String))
+            expect(loginResponse.body?.singleResult.data?.loginUser.user).toMatchObject<UserPayloadFragment>({
+                email: user.email,
+                firstName: user.firstName,
+                id: user.id,
+                isAdmin: user.isAdmin,
+                lastName: user.lastName,
+                oib: user.oib,
+                phoneNumber: user.phoneNumber,
+            })
+        })
+
+        it('should throw an INPUT error if wrong password is provided', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                ChangeUserPasswordMutation,
+                ChangeUserPasswordMutationVariables
+            >({
+                permission: 'isLoggedIn',
+                query: CHANGE_USER_PASSWORD,
+                user: {
+                    id: user.id,
+                },
+                variables: {
+                    input: {
+                        currentPassword: faker.lorem.word(),
+                        newPassword: faker.lorem.word(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.INPUT)
             expect(response.body?.singleResult.data).toBeNull()
         })
     })

@@ -46,3 +46,11 @@ export const LOGIN_USER = gql`
     }
     ${USER_FRAGMENT}
 `
+
+export const CHANGE_USER_PASSWORD = gql`
+    mutation ChangeUserPassword($input: ChangeUserPasswordInput!) {
+        changeUserPassword(input: $input) {
+            success
+        }
+    }
+`

@@ -24,3 +24,8 @@ input LoginUserInput {
     email: String!
     password: String!
 }
+
+input ChangeUserPasswordInput {
+    currentPassword: String!
+    newPassword: String!
+}

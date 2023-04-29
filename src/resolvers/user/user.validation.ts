@@ -19,6 +19,13 @@ export const createUserMutationValidation = z.object({
     }),
 })
 
+export const changeUserPasswordMutationValidation = z.object({
+    input: z.object({
+        currentPassword: z.string(),
+        newPassword: z.string(),
+    }),
+})
+
 export const updateUserMutationValidation = z.object({
     input: z.object({
         email: z
