@@ -7,17 +7,29 @@ import type { Permission } from '../../../utils'
 import { UserFactory } from '../../factories'
 
 import type { CreateContextValue } from './createContext.types'
+import { faker } from '@faker-js/faker'
 
 const mockContext = async (input?: Partial<Prisma.UserCreateInput>): Promise<Partial<Context>> => {
-    const user = await orm.user.create({
-        data: {
-            ...UserFactory.build(),
-            ...input,
-        },
+    let user = await orm.user.findUnique({
         include: {
             listings: true,
         },
+        where: {
+            id: input?.id ?? faker.datatype.uuid(),
+        },
     })
+
+    if (!user) {
+        user = await orm.user.create({
+            data: {
+                ...UserFactory.build(),
+                ...input,
+            },
+            include: {
+                listings: true,
+            },
+        })
+    }
 
     return {
         user: new ContextUser({
@@ -35,7 +47,7 @@ const mockContext = async (input?: Partial<Prisma.UserCreateInput>): Promise<Par
 export const createContext = async (permission?: Permission, input?: Partial<Prisma.UserCreateInput>): CreateContextValue => {
     switch (permission) {
         case 'isAdmin': {
-            return mockContext({ 
+            return mockContext({
                 ...input,
                 isAdmin: true,
             })

@@ -42,6 +42,7 @@ import {
     USERS,
 } from './queries.graphql'
 
+// TODO: tests for other user shit
 describe('User resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
@@ -293,6 +294,10 @@ describe('User resolver', () => {
                 UpdateUserMutation,
                 UpdateUserMutationVariables
             >({
+                user: {
+                    id: user.id,
+                },
+                permission: 'isLoggedIn',
                 query: UPDATE_USER,
                 variables: {
                     input,
@@ -300,7 +305,60 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.updateUser.user).toMatchObject(input)
+            expect(response.body?.singleResult.data?.updateUser.user).toMatchObject<UserPayloadFragment>({
+                ...input,
+                isAdmin: false,
+            })
+        })
+
+        it('should throw an AUTHORIZATION error if updating user that isn\'t himself', async () => {
+            const user = await UserFactory.create()
+
+            const input: UpdateUserInput = {
+                email: faker.internet.email(),
+                firstName: faker.name.firstName(),
+                id: user.id,
+                lastName: faker.name.lastName(),
+                oib: faker.datatype.string(OIB_LENGTH),
+                phoneNumber: faker.phone.number(),
+            }
+
+            const response = await executeOperation<
+                UpdateUserMutation,
+                UpdateUserMutationVariables
+            >({
+                permission: 'isLoggedIn',
+                query: UPDATE_USER,
+                variables: {
+                    input,
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+        it('should throw an AUTHENTICATION error if not logged in', async () => {
+            const input: UpdateUserInput = {
+                email: faker.internet.email(),
+                firstName: faker.name.firstName(),
+                id: faker.datatype.uuid(),
+                lastName: faker.name.lastName(),
+                oib: faker.datatype.string(OIB_LENGTH),
+                phoneNumber: faker.phone.number(),
+            }
+
+            const response = await executeOperation<
+                UpdateUserMutation,
+                UpdateUserMutationVariables
+            >({
+                query: UPDATE_USER,
+                variables: {
+                    input,
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 })
