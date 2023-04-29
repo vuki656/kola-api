@@ -5,7 +5,7 @@ import { ErrorCode } from './Code'
 
 export class ForbiddenError extends GraphQLError {
     constructor(
-        message = 'You are not allowed the access the resource',
+        message = 'You are not allowed the access this resource',
         options?: GraphQLErrorOptions
     ) {
         super(message, {
