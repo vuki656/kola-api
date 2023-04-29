@@ -61,7 +61,7 @@ describe('User resolver', () => {
                 UserQuery,
                 UserQueryVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: USER,
                 variables: {
                     args: {
@@ -114,7 +114,7 @@ describe('User resolver', () => {
                 UserListingsQuery,
                 UserListingsQueryVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: USER_LISTINGS,
                 variables: {
                     args: {
@@ -153,7 +153,7 @@ describe('User resolver', () => {
                 DeleteUserMutation,
                 DeleteUserMutationVariables
             >({
-                permission: 'isAdmin',
+                permission: 'admin',
                 query: DELETE_USER,
                 variables: {
                     input: {
@@ -200,7 +200,7 @@ describe('User resolver', () => {
                 DeleteUserMutation,
                 DeleteUserMutationVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: DELETE_USER,
                 variables: {
                     input: {
@@ -291,7 +291,7 @@ describe('User resolver', () => {
                 UsersQuery,
                 UsersQueryVariables
             >({
-                permission: 'isAdmin',
+                permission: 'admin',
                 query: USERS,
             })
 
@@ -316,7 +316,7 @@ describe('User resolver', () => {
                 UsersQuery,
                 UsersQueryVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: USERS,
             })
 
@@ -333,7 +333,7 @@ describe('User resolver', () => {
                 CurrentUserQuery,
                 CurrentUserQueryVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: CURRENT_USER,
                 user,
             })
@@ -414,7 +414,7 @@ describe('User resolver', () => {
                 UpdateUserMutation,
                 UpdateUserMutationVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: UPDATE_USER,
                 user: {
                     id: user.id,
@@ -447,7 +447,7 @@ describe('User resolver', () => {
                 UpdateUserMutation,
                 UpdateUserMutationVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: UPDATE_USER,
                 variables: {
                     input,
@@ -493,7 +493,7 @@ describe('User resolver', () => {
                 ChangeUserPasswordMutation,
                 ChangeUserPasswordMutationVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: CHANGE_USER_PASSWORD,
                 user: {
                     id: user.id,
@@ -541,7 +541,7 @@ describe('User resolver', () => {
                 ChangeUserPasswordMutation,
                 ChangeUserPasswordMutationVariables
             >({
-                permission: 'isLoggedIn',
+                permission: 'user',
                 query: CHANGE_USER_PASSWORD,
                 user: {
                     id: user.id,

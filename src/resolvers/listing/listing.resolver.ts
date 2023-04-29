@@ -13,7 +13,7 @@ import type { ListingModule } from './resolver-types.generated'
 const ListingResolver: ListingModule.Resolvers = {
     Listing: {
         author: (parent, _, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             return orm.user.findFirstOrThrow({
                 where: {
@@ -28,7 +28,7 @@ const ListingResolver: ListingModule.Resolvers = {
     },
     Mutation: {
         createListing: async (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { input } = createListingMutationValidation.parse(variables)
 
@@ -51,7 +51,7 @@ const ListingResolver: ListingModule.Resolvers = {
             }
         },
         deleteListing: async (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { input } = deleteListingMutationValidation.parse(variables)
 
@@ -68,7 +68,7 @@ const ListingResolver: ListingModule.Resolvers = {
             }
         },
         updateListing: async (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { input } = updateListingMutationValidation.parse(variables)
 
@@ -93,7 +93,7 @@ const ListingResolver: ListingModule.Resolvers = {
     },
     Query: {
         listing: (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { args } = listingQueryValidation.parse(variables)
 
@@ -104,7 +104,7 @@ const ListingResolver: ListingModule.Resolvers = {
             })
         },
         listings: async (_, __, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             return orm.listing.findMany()
         },

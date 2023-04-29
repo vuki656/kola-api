@@ -1,1 +1,1 @@
-export type Permission = 'isAdmin' | 'isLoggedIn'
+export type Permission = 'admin' | 'user'

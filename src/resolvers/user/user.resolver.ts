@@ -75,7 +75,7 @@ const UserResolver: UserModule.Resolvers = {
             }
         },
         deleteUser: async (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn', 'isAdmin'])
+            checkPermissions(context, ['user', 'admin'])
 
             const { input } = deleteUserMutationValidation.parse(variables)
 
@@ -135,7 +135,7 @@ const UserResolver: UserModule.Resolvers = {
             }
         },
         updateUser: async (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { input } = updateUserMutationValidation.parse(variables)
 
@@ -162,7 +162,7 @@ const UserResolver: UserModule.Resolvers = {
     },
     Query: {
         currentUser: (_, __, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             return orm.user.findUniqueOrThrow({
                 where: {
@@ -171,7 +171,7 @@ const UserResolver: UserModule.Resolvers = {
             })
         },
         user: (_, variables, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             const { args } = userQueryValidation.parse(variables)
 
@@ -182,14 +182,14 @@ const UserResolver: UserModule.Resolvers = {
             })
         },
         users: async (_, __, context) => {
-            checkPermissions(context, ['isLoggedIn', 'isAdmin'])
+            checkPermissions(context, ['user', 'admin'])
 
             return orm.user.findMany()
         },
     },
     User: {
         listings: async (parent, _, context) => {
-            checkPermissions(context, ['isLoggedIn'])
+            checkPermissions(context, ['user'])
 
             return orm.listing.findMany({
                 where: {

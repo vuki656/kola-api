@@ -10,7 +10,7 @@ import type { Permission } from './checkPermissions.types'
 export const checkPermissions = (context: Context, permissions: Permission[]) => {
     permissions.forEach((permission) => {
         switch (permission) {
-            case 'isLoggedIn': {
+            case 'user': {
                 if (!context.user.value) {
                     throw new AuthenticationError()
                 }
@@ -18,7 +18,7 @@ export const checkPermissions = (context: Context, permissions: Permission[]) =>
                 break
             }
 
-            case 'isAdmin': {
+            case 'admin': {
                 if (!context.user.value?.isAdmin) {
                     throw new AuthorizationError()
                 }
