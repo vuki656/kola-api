@@ -6,10 +6,10 @@ import type { Table } from './wipeDatabase.types'
 
 // Taken from https://www.prisma.io/docs/concepts/components/prisma-client/crud#deleting-all-data-with-raw-sql--truncate
 export const wipeDatabase = async () => {
-    const tableNames = await orm.$queryRaw<Table[]>`SELECT tablename FROM pg_tables WHERE schemaname=${env.DB_PRISMA_URL}`
+    const tableNames = await orm.$queryRaw<Table[]>`SELECT tablename FROM pg_tables WHERE schemaname=${env.DB_SCHEMA}`
 
     const tables = tableNames
-        .map(({ tablename }) => `"${env.DB_PRISMA_URL}"."${tablename}"`)
+        .map(({ tablename }) => `"${env.DB_SCHEMA}"."${tablename}"`)
         .join(', ')
 
     await orm

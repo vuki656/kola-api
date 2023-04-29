@@ -30,12 +30,12 @@ export async function startServer() {
             httpServer.listen({ port: env.APP_PORT })
         })
         .then(() => {
-            logger.info(`Server starter on ${env.APP_PORT}`)
+            logger.info(`🚀 Server starter on ${env.APP_PORT}`)
         })
         .catch((error: unknown) => {
             logger.error({
                 error,
-                message: 'Error starting server',
+                message: '💣 Error starting server',
             })
         })
 }
