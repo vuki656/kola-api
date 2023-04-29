@@ -52,13 +52,16 @@ const UserResolver: UserModule.Resolvers = {
                 user,
             }
         },
-        loginUser: async (_, variables, context) => {
+        loginUser: async (_, variables) => {
             const { input } = loginUserMutationValidation.parse(variables)
 
             const user = await orm.user.findUnique({
                 where: {
                     email: input.email,
                 },
+                include: {
+                    listings: true
+                }
             })
 
             if (!user) {
@@ -83,6 +86,7 @@ const UserResolver: UserModule.Resolvers = {
 
             return {
                 token,
+                user,
             }
         },
         logoutUser: (_, __, context) => {

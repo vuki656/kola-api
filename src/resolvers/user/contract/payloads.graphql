@@ -12,6 +12,7 @@ type UpdateUserPayload {
 
 type LoginUserPayload {
     token: String!
+    user: User!
 }
 
 type LogoutUserPayload {
