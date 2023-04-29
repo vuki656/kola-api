@@ -81,8 +81,6 @@ const UserResolver: UserModule.Resolvers = {
                 { expiresIn: env.APP_JWT_DURATION_SEC }
             )
 
-            context.res.cookie('token', token)
-
             return {
                 token,
             }
