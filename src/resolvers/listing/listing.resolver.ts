@@ -30,7 +30,7 @@ const ListingResolver: ListingModule.Resolvers = {
                 data: {
                     author: {
                         connect: {
-                            id: context.user.nonNullValue.id
+                            id: context.user.nonNullValue.id,
                         },
                     },
                     description: input.description,

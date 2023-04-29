@@ -30,7 +30,9 @@ const UserResolver: UserModule.Resolvers = {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
+                    oib: input.oib,
                     password: passwordHash,
+                    phoneNumber: input.phoneNumber,
                     updatedAt: new Date(),
                 },
             })
@@ -56,12 +58,12 @@ const UserResolver: UserModule.Resolvers = {
             const { input } = loginUserMutationValidation.parse(variables)
 
             const user = await orm.user.findUnique({
+                include: {
+                    listings: true,
+                },
                 where: {
                     email: input.email,
                 },
-                include: {
-                    listings: true
-                }
             })
 
             if (!user) {
@@ -104,6 +106,8 @@ const UserResolver: UserModule.Resolvers = {
                     email: input.email,
                     firstName: input.firstName,
                     lastName: input.lastName,
+                    oib: input.oib,
+                    phoneNumber: input.phoneNumber,
                     updatedAt: new Date(),
                 },
                 where: {

@@ -21,14 +21,16 @@ model Listing {
 }
 
 model User {
-    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
-    firstName String    @map("first_name")
-    lastName  String    @map("last_name")
-    email     String    @unique
-    password  String
-    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
-    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
-    listings  Listing[]
+    id          String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    firstName   String    @map("first_name")
+    lastName    String    @map("last_name")
+    email       String    @unique
+    password    String
+    phoneNumber String    @map("phone_number")
+    oib         Int
+    createdAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt   DateTime  @map("updated_at") @db.Timestamp(6)
+    listings    Listing[]
 
     @@map("users")
 }

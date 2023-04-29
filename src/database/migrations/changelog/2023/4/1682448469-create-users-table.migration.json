@@ -65,6 +65,24 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "phone_number",
+                                        "type": "text",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "oib",
+                                        "type": "INT(11)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "created_at",
                                         "type": "timestamp",
                                         "defaultValueComputed": "timezone('utc', now())",
