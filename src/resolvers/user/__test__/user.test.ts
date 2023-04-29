@@ -290,12 +290,39 @@ describe('User resolver', () => {
                 UsersQuery,
                 UsersQueryVariables
             >({
+                permission: 'isAdmin',
                 query: USERS,
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.users).toHaveLength(COUNT)
+            expect(response.body?.singleResult.data?.users).toHaveLength(COUNT + 1) // + 1 for the auto created authorized user
         })
+        
+        it('should throw an AUTHENTICATION error if user not logged in', async () => {
+            const response = await executeOperation<
+                UsersQuery,
+                UsersQueryVariables
+            >({
+                query: USERS,
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
+        it('should throw an AUTHORIZATION error if user not admin', async () => {
+            const response = await executeOperation<
+                UsersQuery,
+                UsersQueryVariables
+            >({
+                permission: 'isLoggedIn',
+                query: USERS,
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
     })
 
     describe('when `currentUser` query is called', () => {
