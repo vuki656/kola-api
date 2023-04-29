@@ -114,7 +114,15 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.deleteUser.user).toMatchObject<UserPayloadFragment>(user)
+            expect(response.body?.singleResult.data?.deleteUser.user).toMatchObject<UserPayloadFragment>({
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                oib: user.oib,
+                id: user.id,
+                isAdmin: user.isAdmin,
+                phoneNumber: user.phoneNumber,
+            })
         })
 
         it('should throw an AUTHENTICATION error if user not logged in', async () => {

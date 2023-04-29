@@ -1,3 +1,3 @@
 -   [ ] Input limits
 -   [ ] Database limits
--   [ ] Prevent people from deleting/modifying other peoples stuff
+-   [ ] Change password mutation
