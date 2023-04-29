@@ -1,5 +1,5 @@
-import type { User } from '../../resolvers/graphql-types.generated'
+import type { TokenUser } from '../../server'
 
 export type TokenDataType = {
-    user: Pick<User, 'email' | 'firstName' | 'id' | 'lastName'>
+    user: TokenUser
 }

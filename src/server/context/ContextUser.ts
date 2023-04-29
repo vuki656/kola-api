@@ -1,17 +1,17 @@
-import { ForbiddenError } from '../../shared/errors'
+import { AuthenticationError } from '../../shared/errors'
 
-import type { ContextUserValue } from './context.types'
+import type { TokenUser } from './context.types'
 
 export class ContextUser {
-    public value: ContextUserValue | null
+    public value: TokenUser | null
 
-    constructor(user: ContextUserValue | null) {
+    constructor(user: TokenUser | null) {
         this.value = user
     }
 
     public get nonNullValue() {
         if (!this.value) {
-            throw new ForbiddenError()
+            throw new AuthenticationError()
         }
 
         return this.value

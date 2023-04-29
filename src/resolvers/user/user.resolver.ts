@@ -8,8 +8,10 @@ import { env } from '../../shared/env'
 import { InputError } from '../../shared/errors'
 import { orm } from '../../shared/orm'
 import type { TokenDataType } from '../../shared/types'
+import { checkPermissions } from '../../shared/utils'
 
 import type { UserModule } from './resolver-types.generated'
+import { UserUtils } from './user.utils'
 import {
     createUserMutationValidation,
     deleteUserMutationValidation,
@@ -41,7 +43,9 @@ const UserResolver: UserModule.Resolvers = {
                 user,
             }
         },
-        deleteUser: async (_, variables) => {
+        deleteUser: async (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn', 'isAdmin'])
+
             const { input } = deleteUserMutationValidation.parse(variables)
 
             const user = await orm.user.delete({
@@ -77,7 +81,15 @@ const UserResolver: UserModule.Resolvers = {
             }
 
             const tokenData: TokenDataType = {
-                user,
+                user: {
+                    ...user,
+                    listings: user.listings.map((listing) => {
+                        return {
+                            ...listing,
+                            price: listing.price.toNumber(),
+                        }
+                    }),
+                },
             }
 
             const token = sign(
@@ -92,14 +104,20 @@ const UserResolver: UserModule.Resolvers = {
             }
         },
         logoutUser: (_, __, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             context.user.clear()
 
             return {
                 success: true,
             }
         },
-        updateUser: async (_, variables) => {
+        updateUser: async (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { input } = updateUserMutationValidation.parse(variables)
+
+            UserUtils.checkIsPerformingOnSelf(context, input.id)
 
             const user = await orm.user.update({
                 data: {
@@ -122,13 +140,17 @@ const UserResolver: UserModule.Resolvers = {
     },
     Query: {
         currentUser: (_, __, context) => {
-            return orm.user.findUnique({
+            checkPermissions(context, ['isLoggedIn'])
+
+            return orm.user.findUniqueOrThrow({
                 where: {
                     id: context.user.nonNullValue.id,
                 },
             })
         },
-        user: (_, variables) => {
+        user: (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { args } = userQueryValidation.parse(variables)
 
             return orm.user.findUniqueOrThrow({
@@ -137,12 +159,16 @@ const UserResolver: UserModule.Resolvers = {
                 },
             })
         },
-        users: async () => {
+        users: async (_, __, context) => {
+            checkPermissions(context, ['isLoggedIn', 'isAdmin'])
+
             return orm.user.findMany()
         },
     },
     User: {
-        listings: async (parent) => {
+        listings: async (parent, _, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             return orm.listing.findMany({
                 where: {
                     author: {

@@ -6,23 +6,22 @@ import { logger } from '../../shared/logger'
 
 import type {
     Context,
-    ContextUserValue,
+    TokenUser,
 } from './context.types'
-import { cookieValidation } from './context.validation'
+import { tokenValidation } from './context.validation'
 import { ContextUser } from './ContextUser'
 
 // eslint-disable-next-line @typescript-eslint/require-await -- Apollo context has to be async
 export const context = async ({ req, res }: ExpressContextFunctionArgument): Promise<Context> => {
     const [,token] = req.headers.cookie?.split('=') ?? []
 
-    let user: ContextUserValue | null = null
+    let user: TokenUser | null = null
 
     try {
-        const tokenData = verify(token ?? '', env.APP_JWT_SECRET)
+        const verifiedToken = verify(token ?? '', env.APP_JWT_SECRET)
+        const tokenData = tokenValidation.parse(verifiedToken)
 
-        const { user: parsedUser } = cookieValidation.parse(tokenData)
-
-        user = parsedUser
+        user = tokenData.user
     } catch (error: unknown) {
         logger.debug({
             error,

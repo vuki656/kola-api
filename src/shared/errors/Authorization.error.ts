@@ -3,15 +3,15 @@ import { GraphQLError } from 'graphql'
 
 import { ErrorCode } from './Code'
 
-export class ForbiddenError extends GraphQLError {
+export class AuthorizationError extends GraphQLError {
     constructor(
-        message = 'You are not allowed the access this resource',
+        message = 'You need don\'t have permission to perform this action',
         options?: GraphQLErrorOptions
     ) {
         super(message, {
             ...options,
             extensions: {
-                code: ErrorCode.FORBIDDEN,
+                code: ErrorCode.AUTHORIZATION,
                 ...options?.extensions,
             },
         })

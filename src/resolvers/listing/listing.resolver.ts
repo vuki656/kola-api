@@ -1,5 +1,7 @@
 import { orm } from '../../shared/orm'
+import { checkPermissions } from '../../shared/utils'
 
+import { ListingUtils } from './listing.utils'
 import {
     createListingMutationValidation,
     deleteListingMutationValidation,
@@ -10,7 +12,9 @@ import type { ListingModule } from './resolver-types.generated'
 
 const ListingResolver: ListingModule.Resolvers = {
     Listing: {
-        author: (parent) => {
+        author: (parent, _, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             return orm.user.findFirstOrThrow({
                 where: {
                     listings: {
@@ -24,6 +28,8 @@ const ListingResolver: ListingModule.Resolvers = {
     },
     Mutation: {
         createListing: async (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { input } = createListingMutationValidation.parse(variables)
 
             const listing = await orm.listing.create({
@@ -44,8 +50,12 @@ const ListingResolver: ListingModule.Resolvers = {
                 listing,
             }
         },
-        deleteListing: async (_, variables) => {
+        deleteListing: async (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { input } = deleteListingMutationValidation.parse(variables)
+
+            ListingUtils.checkUserOwnsListing(context, input.id)
 
             const listing = await orm.listing.delete({
                 where: {
@@ -57,8 +67,12 @@ const ListingResolver: ListingModule.Resolvers = {
                 listing,
             }
         },
-        updateListing: async (_, variables) => {
+        updateListing: async (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { input } = updateListingMutationValidation.parse(variables)
+
+            ListingUtils.checkUserOwnsListing(context, input.id)
 
             const listing = await orm.listing.update({
                 data: {
@@ -78,7 +92,9 @@ const ListingResolver: ListingModule.Resolvers = {
         },
     },
     Query: {
-        listing: (_, variables) => {
+        listing: (_, variables, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             const { args } = listingQueryValidation.parse(variables)
 
             return orm.listing.findUniqueOrThrow({
@@ -87,7 +103,9 @@ const ListingResolver: ListingModule.Resolvers = {
                 },
             })
         },
-        listings: async () => {
+        listings: async (_, __, context) => {
+            checkPermissions(context, ['isLoggedIn'])
+
             return orm.listing.findMany()
         },
     },
