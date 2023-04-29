@@ -3,10 +3,10 @@ import type {
     GraphQLResponseBody,
     VariableValues,
 } from '@apollo/server/dist/esm/externalTypes/graphql'
+import type { Prisma } from '@prisma/client'
 
 import type { apolloServer } from '../../../../server'
 import type { Permission } from '../../../utils'
-import { Prisma } from '@prisma/client'
 
 type BaseResponse = {
     http: HTTPGraphQLHead
@@ -18,7 +18,7 @@ export type RequestType<
     TData extends ResponseDataType,
     TVariables extends VariableValues
 > = Parameters<typeof apolloServer.executeOperation<TData, TVariables>>[0] & {
-    permission?: Permission,
+    permission?: Permission
     user?: Partial<Prisma.UserCreateInput>
 }
 

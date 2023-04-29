@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import type { Prisma } from '@prisma/client'
 
 import type { Context } from '../../../../server/context'
@@ -7,7 +8,6 @@ import type { Permission } from '../../../utils'
 import { UserFactory } from '../../factories'
 
 import type { CreateContextValue } from './createContext.types'
-import { faker } from '@faker-js/faker'
 
 const mockContext = async (input?: Partial<Prisma.UserCreateInput>): Promise<Partial<Context>> => {
     let user = await orm.user.findUnique({

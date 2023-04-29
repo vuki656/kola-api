@@ -2,9 +2,9 @@ type User {
     email: String!
     firstName: String!
     id: ID!
+    isAdmin: Boolean!
     lastName: String!
     listings: [Listing!]!
-    oib: String!,
+    oib: String!
     phoneNumber: String!
-    isAdmin: Boolean!
 }

@@ -122,10 +122,10 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.data?.deleteUser.user).toMatchObject<UserPayloadFragment>({
                 email: user.email,
                 firstName: user.firstName,
-                lastName: user.lastName,
-                oib: user.oib,
                 id: user.id,
                 isAdmin: user.isAdmin,
+                lastName: user.lastName,
+                oib: user.oib,
                 phoneNumber: user.phoneNumber,
             })
         })
@@ -190,9 +190,9 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.loginUser.token).toStrictEqual(expect.any(String))
             expect(response.body?.singleResult.data?.loginUser.user).toMatchObject<UserPayloadFragment>({
-                id: user.id,
                 email: user.email,
                 firstName: user.firstName,
+                id: user.id,
                 isAdmin: user.isAdmin,
                 lastName: user.lastName,
                 oib: user.oib,
@@ -263,16 +263,16 @@ describe('User resolver', () => {
                 CurrentUserQuery,
                 CurrentUserQueryVariables
             >({
-                user,
                 permission: 'isLoggedIn',
                 query: CURRENT_USER,
+                user,
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.currentUser).toMatchObject<UserPayloadFragment>({
-                id: expect.any(String),
                 email: user.email,
                 firstName: user.firstName,
+                id: expect.any(String),
                 isAdmin: user.isAdmin,
                 lastName: user.lastName,
                 oib: user.oib,
@@ -336,11 +336,11 @@ describe('User resolver', () => {
                 UpdateUserMutation,
                 UpdateUserMutationVariables
             >({
+                permission: 'isLoggedIn',
+                query: UPDATE_USER,
                 user: {
                     id: user.id,
                 },
-                permission: 'isLoggedIn',
-                query: UPDATE_USER,
                 variables: {
                     input,
                 },
