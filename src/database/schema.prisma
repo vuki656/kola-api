@@ -28,6 +28,7 @@ model User {
     password    String
     phoneNumber String    @map("phone_number")
     oib         Int
+    isAdmin     Boolean   @default(false) @map("is_admin")
     createdAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
     updatedAt   DateTime  @map("updated_at") @db.Timestamp(6)
     listings    Listing[]

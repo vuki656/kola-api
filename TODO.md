@@ -1,3 +1,3 @@
 -   [ ] Input limits
 -   [ ] Database limits
--   [ ] Auth
+-   [ ] Prevent people from deleting/modifying other peoples stuff
