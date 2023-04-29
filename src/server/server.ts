@@ -1,4 +1,8 @@
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import http from 'http'
+
 import { ApolloServer } from '@apollo/server'
+import express from 'express'
 
 import { logger } from '../shared/logger'
 
@@ -10,11 +14,15 @@ import {
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
 
-export const server = new ApolloServer<Context>({
+export const expressApp = express()
+export const httpServer = http.createServer(expressApp)
+
+export const apolloServer = new ApolloServer<Context>({
     logger,
     plugins: [
         ApolloPluginLandingPage,
         ApolloPluginLogger,
+        ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
     resolvers,
     typeDefs,

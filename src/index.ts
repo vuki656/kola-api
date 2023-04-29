@@ -1,28 +1,40 @@
-import { startStandaloneServer } from '@apollo/server/standalone'
+import { expressMiddleware } from '@apollo/server/express4'
+import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import {
+    apolloServer,
     context,
-    server,
+    expressApp,
+    httpServer,
 } from './server'
 import env from './shared/env'
 import { logger } from './shared/logger'
 
-void startStandaloneServer(server, {
-    context,
-    listen: {
-        port: env.APP_PORT,
-    },
-})
-    .then(({ url }) => {
-        logger.info({
-            message: 'Server started',
-            url,
-        })
-    })
-    .catch((error: unknown) => {
-        logger.error({
-            error,
-            message: 'Server failed to start',
-        })
-    })
+export async function startServer() {
+    await apolloServer
+        .start()
+        .then(() => {
+            expressApp.use(
+                '/',
+                cors(),
+                bodyParser.json({ limit: '50mb' }),
+                expressMiddleware(apolloServer, {
+                    context,
+                }),
+            )
 
+            httpServer.listen({ port: env.APP_PORT })
+        })
+        .then(() => {
+            logger.info(`Server starter on ${env.APP_PORT}`)
+        })
+        .catch((error: unknown) => {
+            logger.error({
+                error,
+                message: 'Error starting server',
+            })
+        })
+}
+
+void startServer()
