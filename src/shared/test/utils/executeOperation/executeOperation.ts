@@ -4,7 +4,7 @@ import type {
 } from '@apollo/server/dist/esm/externalTypes/graphql'
 
 import type { Context } from '../../../../server'
-import { server } from '../../../../server'
+import { apolloServer } from '../../../../server'
 
 import type {
     ExecuteOperationReturnType,
@@ -35,7 +35,7 @@ export const executeOperation = async <
     // eslint-disable-next-line unicorn/prefer-default-parameters -- Not valid in this case
     const expectedType = expectedTypeProp ?? 'single'
 
-    const response = await server.executeOperation<TData, TVariables>(request, options)
+    const response = await apolloServer.executeOperation<TData, TVariables>(request, options)
     const responseType = response.body.kind
 
     if (response.body.kind !== expectedType) {
