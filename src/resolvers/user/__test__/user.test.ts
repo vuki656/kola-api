@@ -385,7 +385,15 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            // expect(response.body?.singleResult.data?.createUser.user).toMatchObject<UserPayloadFragment>(user)
+            expect(response.body?.singleResult.data?.createUser.user).toMatchObject<UserPayloadFragment>({
+                email: input.email,
+                firstName: input.firstName,
+                id: expect.any(String),
+                isAdmin: false,
+                lastName: input.lastName,
+                oib: input.oib,
+                phoneNumber: input.phoneNumber,
+            })
         })
     })
 
