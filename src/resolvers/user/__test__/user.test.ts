@@ -10,6 +10,8 @@ import type {
     CreateUserInput,
     CreateUserMutation,
     CreateUserMutationVariables,
+    CurrentUserQuery,
+    CurrentUserQueryVariables,
     DeleteUserMutation,
     DeleteUserMutationVariables,
     LoginUserMutation,
@@ -37,12 +39,14 @@ import {
     UPDATE_USER,
 } from './mutations.graphql'
 import {
+    CURRENT_USER,
     USER,
     USER_LISTINGS,
     USERS,
 } from './queries.graphql'
 
 // TODO: tests for other user shit
+// TODO: change password
 describe('User resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
@@ -248,6 +252,44 @@ describe('User resolver', () => {
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.users).toHaveLength(COUNT)
+        })
+    })
+
+    describe('when `currentUser` query is called', () => {
+        it('should return currentUser', async () => {
+            const user = UserFactory.build()
+
+            const response = await executeOperation<
+                CurrentUserQuery,
+                CurrentUserQueryVariables
+            >({
+                user,
+                permission: 'isLoggedIn',
+                query: CURRENT_USER,
+            })
+
+            expect(response.body?.singleResult.errors).toBeUndefined()
+            expect(response.body?.singleResult.data?.currentUser).toMatchObject<UserPayloadFragment>({
+                id: expect.any(String),
+                email: user.email,
+                firstName: user.firstName,
+                isAdmin: user.isAdmin,
+                lastName: user.lastName,
+                oib: user.oib,
+                phoneNumber: user.phoneNumber,
+            })
+        })
+
+        it('should throw an AUTHORIZATION error if not logged in', async () => {
+            const response = await executeOperation<
+                CurrentUserQuery,
+                CurrentUserQueryVariables
+            >({
+                query: CURRENT_USER,
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data?.currentUser).toBeNull()
         })
     })
 

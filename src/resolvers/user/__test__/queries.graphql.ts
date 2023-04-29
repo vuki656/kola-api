@@ -11,6 +11,15 @@ export const USER = gql`
     ${USER_FRAGMENT}
 `
 
+export const CURRENT_USER = gql`
+    query CurrentUser {
+         currentUser {
+            ...UserPayload
+         }
+     }
+    ${USER_FRAGMENT}
+`
+
 export const USERS = gql`
     query Users {
          users {
