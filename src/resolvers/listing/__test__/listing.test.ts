@@ -233,7 +233,7 @@ describe('Listing resolver', () => {
 
             const input: CreateListingInput = {
                 description: faker.lorem.sentence(),
-                price: faker.datatype.number({ max: 55_000, min: 0 }),
+                price: faker.datatype.number(),
                 title: faker.lorem.words(),
             }
 
@@ -280,14 +280,21 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe('when `updateListing` mutation is called', () => {
+    describe.only('when `updateListing` mutation is called', () => {
         it('should update listing', async () => {
-            const listing = await ListingFactory.create()
+            const author = await UserFactory.create()
+            const listing = await ListingFactory.create({
+                author: {
+                    connect: {
+                        id: author.id,
+                    },
+                },
+            })
 
             const input: UpdateListingInput = {
                 description: faker.lorem.sentence(),
                 id: listing.id,
-                price: faker.datatype.number({ max: 55_000, min: 0 }),
+                price: faker.datatype.number(),
                 title: faker.lorem.words(),
             }
 
@@ -295,7 +302,11 @@ describe('Listing resolver', () => {
                 UpdateListingMutation,
                 UpdateListingMutationVariables
             >({
+                permission: 'user',
                 query: UPDATE_LISTING,
+                user: {
+                    id: author.id,
+                },
                 variables: {
                     input,
                 },
@@ -303,6 +314,47 @@ describe('Listing resolver', () => {
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.updateListing.listing).toMatchObject<ListingPayloadFragment>(input)
+        })
+
+        it('should return AUTHENTICATION error if user not logged in', async () => {
+            const response = await executeOperation<
+                UpdateListingMutation,
+                UpdateListingMutationVariables
+            >({
+                query: UPDATE_LISTING,
+                variables: {
+                    input: {
+                        description: faker.lorem.word(),
+                        id: faker.datatype.uuid(),
+                        price: faker.datatype.number(),
+                        title: faker.lorem.word(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
+        it('should return AUTHORIZATION error if user doesn\'t own that listing', async () => {
+            const response = await executeOperation<
+                UpdateListingMutation,
+                UpdateListingMutationVariables
+            >({
+                permission: 'user',
+                query: UPDATE_LISTING,
+                variables: {
+                    input: {
+                        description: faker.lorem.word(),
+                        id: faker.datatype.uuid(),
+                        price: faker.datatype.number(),
+                        title: faker.lorem.word(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 })
