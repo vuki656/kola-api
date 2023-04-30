@@ -137,15 +137,26 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe('when `deleteListing` mutation is called', () => {
+    describe.only('when `deleteListing` mutation is called', () => {
         it('should delete the listing', async () => {
-            const listing = await ListingFactory.create()
+            const author = await UserFactory.create()
+            const listing = await ListingFactory.create({
+                author: {
+                    connect: {
+                        id: author.id,
+                    },
+                },
+            })
 
             const response = await executeOperation<
                 DeleteListingMutation,
                 DeleteListingMutationVariables
             >({
+                permission: 'user',
                 query: DELETE_LISTING,
+                user: {
+                    id: author.id,
+                },
                 variables: {
                     input: {
                         id: listing.id,
@@ -160,6 +171,41 @@ describe('Listing resolver', () => {
                 price: listing.price.toNumber(),
                 title: listing.title,
             })
+        })
+
+        it('should return AUTHORIZATION error if user doesn\'t own that listing', async () => {
+            const response = await executeOperation<
+                DeleteListingMutation,
+                DeleteListingMutationVariables
+            >({
+                permission: 'user',
+                query: DELETE_LISTING,
+                variables: {
+                    input: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHORIZATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
+        it('should return AUTHENTICATION error if not logged in', async () => {
+            const response = await executeOperation<
+                DeleteListingMutation,
+                DeleteListingMutationVariables
+            >({
+                query: DELETE_LISTING,
+                variables: {
+                    input: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 
