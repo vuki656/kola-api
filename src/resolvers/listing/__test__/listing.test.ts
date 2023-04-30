@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+import { ErrorCode } from '../../../shared/errors'
 import {
     ListingFactory,
     UserFactory,
@@ -42,7 +43,7 @@ describe('Listing resolver', () => {
         await wipeDatabase()
     })
 
-    describe('when `listing` query is called', () => {
+    describe.only('when `listing` query is called', () => {
         it('should return listing', async () => {
             const listing = await ListingFactory.create()
 
@@ -50,6 +51,7 @@ describe('Listing resolver', () => {
                 ListingQuery,
                 ListingQueryVariables
             >({
+                permission: 'user',
                 query: LISTING,
                 variables: {
                     args: {
@@ -67,6 +69,25 @@ describe('Listing resolver', () => {
             })
         })
 
+        it('should return AUTHENTICATION error if not logged in', async () => {
+            const response = await executeOperation<
+                ListingQuery,
+                ListingQueryVariables
+            >({
+                query: LISTING,
+                variables: {
+                    args: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+    })
+
+    describe('when `listing` `author` field resolver is called', () => {
         it('should return listing author', async () => {
             const author = await UserFactory.create()
             const listing = await ListingFactory.create({

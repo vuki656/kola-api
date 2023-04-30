@@ -1,3 +1,3 @@
 -   [ ] Input limits
 -   [ ] Database limits
--   [ ] Change password mutation
+-   [ ] Remove unnecessary factory calls in tests (when auth rejects before db actions)
