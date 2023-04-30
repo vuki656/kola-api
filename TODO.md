@@ -1,4 +1,3 @@
 -   [ ] Input limits
 -   [ ] Database limits
 -   [ ] Remove unnecessary factory calls in tests (when auth rejects before db actions)
--   [ ] Rename 'not logged in' to 'user not logged in'

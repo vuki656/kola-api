@@ -82,7 +82,7 @@ describe('User resolver', () => {
             })
         })
 
-        it('should AUTHENTICATION error if not logged in', async () => {
+        it('should AUTHENTICATION error if user not logged in', async () => {
             const user = await UserFactory.create()
 
             const response = await executeOperation<
@@ -127,7 +127,7 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.data?.user.listings).toHaveLength(1)
         })
 
-        it('should return AUTHENTICATION error if not logged in', async () => {
+        it('should return AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 UserListingsQuery,
                 UserListingsQueryVariables
@@ -350,7 +350,7 @@ describe('User resolver', () => {
             })
         })
 
-        it('should throw an AUTHORIZATION error if not logged in', async () => {
+        it('should throw an AUTHORIZATION error if user not logged in', async () => {
             const response = await executeOperation<
                 CurrentUserQuery,
                 CurrentUserQueryVariables
@@ -458,7 +458,7 @@ describe('User resolver', () => {
             expect(response.body?.singleResult.data).toBeNull()
         })
 
-        it('should throw an AUTHENTICATION error if not logged in', async () => {
+        it('should throw an AUTHENTICATION error if user not logged in', async () => {
             const input: UpdateUserInput = {
                 email: faker.internet.email(),
                 firstName: faker.name.firstName(),

@@ -69,7 +69,7 @@ describe('Listing resolver', () => {
             })
         })
 
-        it('should return AUTHENTICATION error if not logged in', async () => {
+        it('should return AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 ListingQuery,
                 ListingQueryVariables
@@ -118,7 +118,7 @@ describe('Listing resolver', () => {
             expect(response.body?.singleResult.data?.listing.author.id).toBe(author.id)
         })
 
-        it('should return AUTHENTICATION error if not logged in', async () => {
+        it('should return AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 ListingAuthorQuery,
                 ListingAuthorQueryVariables
@@ -190,7 +190,7 @@ describe('Listing resolver', () => {
             expect(response.body?.singleResult.data).toBeNull()
         })
 
-        it('should return AUTHENTICATION error if not logged in', async () => {
+        it('should return AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 DeleteListingMutation,
                 DeleteListingMutationVariables
@@ -236,7 +236,7 @@ describe('Listing resolver', () => {
             expect(response.body?.singleResult.data?.listings).toHaveLength(COUNT)
         })
 
-        it('should return AUTHENTICATION error if not logged in', async () => {
+        it('should return AUTHENTICATION error if user not logged in', async () => {
             const response = await executeOperation<
                 DeleteListingMutation,
                 DeleteListingMutationVariables
@@ -287,7 +287,7 @@ describe('Listing resolver', () => {
             })
         })
 
-        it('should throw an AUTHORIZATION error if not logged in', async () => {
+        it('should throw an AUTHORIZATION error if user not logged in', async () => {
             const response = await executeOperation<
                 CreateListingMutation,
                 CreateListingMutationVariables
