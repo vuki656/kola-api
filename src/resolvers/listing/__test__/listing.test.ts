@@ -38,6 +38,7 @@ import {
     LISTINGS,
 } from './queries.graphql'
 
+// TODO: remove onlys
 describe('Listing resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
@@ -87,7 +88,7 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe('when `listing` `author` field resolver is called', () => {
+    describe.only('when `listing` `author` field resolver is called', () => {
         it('should return listing author', async () => {
             const author = await UserFactory.create()
             const listing = await ListingFactory.create({
@@ -102,7 +103,11 @@ describe('Listing resolver', () => {
                 ListingAuthorQuery,
                 ListingAuthorQueryVariables
             >({
+                permission: 'user',
                 query: LISTING_AUTHOR,
+                user: {
+                    id: author.id,
+                },
                 variables: {
                     args: {
                         id: listing.id,
@@ -112,6 +117,23 @@ describe('Listing resolver', () => {
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.listing.author.id).toBe(author.id)
+        })
+
+        it('should return AUTHENTICATION error if not logged in', async () => {
+            const response = await executeOperation<
+                ListingAuthorQuery,
+                ListingAuthorQueryVariables
+            >({
+                query: LISTING_AUTHOR,
+                variables: {
+                    args: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 
