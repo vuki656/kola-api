@@ -56,6 +56,28 @@ const UserResolver: UserModule.Resolvers = {
         createUser: async (_, variables) => {
             const { input } = createUserMutationValidation.parse(variables)
 
+            // TODO: test
+            const userWithEmail = await orm.user.findUnique({
+                where: {
+                    email: input.email,
+                },
+            })
+
+            if (userWithEmail) {
+                throw new InputError('Email already in use')
+            }
+
+            // TODO: test
+            const userWithOib = await orm.user.findUnique({
+                where: {
+                    oib: input.oib,
+                },
+            })
+
+            if (userWithOib) {
+                throw new InputError('OIB already in use')
+            }
+
             const passwordHash = await hash(input.password, 10)
 
             const user = await orm.user.create({

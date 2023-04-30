@@ -66,7 +66,7 @@
                                 {
                                     "column": {
                                         "name": "phone_number",
-                                        "type": "text",
+                                        "type": "CHAR(10)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -75,9 +75,10 @@
                                 {
                                     "column": {
                                         "name": "oib",
-                                        "type": "VARCHAR(11)",
+                                        "type": "CHAR(11)",
                                         "constraints": {
-                                            "nullable": false
+                                            "nullable": false,
+                                            "unique": true
                                         }
                                     }
                                 },

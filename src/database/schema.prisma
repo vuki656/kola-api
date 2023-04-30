@@ -26,8 +26,8 @@ model User {
     lastName    String    @map("last_name")
     email       String    @unique
     password    String
-    phoneNumber String    @map("phone_number")
-    oib         String    @db.VarChar(11)
+    phoneNumber String    @map("phone_number") @db.Char(10)
+    oib         String    @unique @db.Char(11)
     isAdmin     Boolean   @default(false) @map("is_admin")
     createdAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
     updatedAt   DateTime  @map("updated_at") @db.Timestamp(6)

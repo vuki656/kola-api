@@ -1,10 +1,13 @@
 import { z } from 'zod'
 
-import { OIB_LENGTH } from '../../shared/constants'
+import {
+    OIB_LENGTH,
+    PHONE_NUMBER_LENGTH,
+} from '../../shared/constants'
 
-const oibValidation = z
-    .string()
-    .length(OIB_LENGTH)
+// TODO: valid oib validation
+const oibValidation = z.string().length(OIB_LENGTH)
+const phoneNumberValidation = z.string().length(PHONE_NUMBER_LENGTH)
 
 export const createUserMutationValidation = z.object({
     input: z.object({
@@ -15,7 +18,7 @@ export const createUserMutationValidation = z.object({
         lastName: z.string(),
         oib: oibValidation,
         password: z.string(),
-        phoneNumber: z.string(),
+        phoneNumber: phoneNumberValidation,
     }),
 })
 
@@ -37,7 +40,7 @@ export const updateUserMutationValidation = z.object({
             .uuid(),
         lastName: z.string(),
         oib: oibValidation,
-        phoneNumber: z.string(),
+        phoneNumber: phoneNumberValidation,
     }),
 })
 
