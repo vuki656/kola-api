@@ -83,8 +83,6 @@ describe('User resolver', () => {
         })
 
         it('should AUTHENTICATION error if user not logged in', async () => {
-            const user = await UserFactory.create()
-
             const response = await executeOperation<
                 UserQuery,
                 UserQueryVariables
@@ -92,7 +90,7 @@ describe('User resolver', () => {
                 query: USER,
                 variables: {
                     args: {
-                        id: user.id,
+                        id: faker.datatype.uuid(),
                     },
                 },
             })
@@ -175,8 +173,6 @@ describe('User resolver', () => {
         })
 
         it('should throw an AUTHENTICATION error if user not logged in', async () => {
-            const user = await UserFactory.create()
-
             const response = await executeOperation<
                 DeleteUserMutation,
                 DeleteUserMutationVariables
@@ -184,7 +180,7 @@ describe('User resolver', () => {
                 query: DELETE_USER,
                 variables: {
                     input: {
-                        id: user.id,
+                        id: faker.datatype.uuid(),
                     },
                 },
             })
@@ -194,8 +190,6 @@ describe('User resolver', () => {
         })
 
         it('should throw an AUTHORIZATION error if user not admin', async () => {
-            const user = await UserFactory.create()
-
             const response = await executeOperation<
                 DeleteUserMutation,
                 DeleteUserMutationVariables
@@ -204,7 +198,7 @@ describe('User resolver', () => {
                 query: DELETE_USER,
                 variables: {
                     input: {
-                        id: user.id,
+                        id: faker.datatype.uuid(),
                     },
                 },
             })
@@ -252,7 +246,7 @@ describe('User resolver', () => {
                 variables: {
                     input: {
                         email: faker.internet.email(),
-                        password: UserFactory.password.raw,
+                        password: faker.internet.password(),
                     },
                 },
             })
@@ -296,7 +290,7 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
-            expect(response.body?.singleResult.data?.users).toHaveLength(COUNT + 1) // + 1 for the auto created authorized user
+            expect(response.body?.singleResult.data?.users).toHaveLength(COUNT + 1) // + 1 for the auto-created authorized user
         })
 
         it('should throw an AUTHENTICATION error if user not logged in', async () => {
@@ -459,22 +453,20 @@ describe('User resolver', () => {
         })
 
         it('should throw an AUTHENTICATION error if user not logged in', async () => {
-            const input: UpdateUserInput = {
-                email: faker.internet.email(),
-                firstName: faker.name.firstName(),
-                id: faker.datatype.uuid(),
-                lastName: faker.name.lastName(),
-                oib: faker.datatype.string(OIB_LENGTH),
-                phoneNumber: faker.phone.number(),
-            }
-
             const response = await executeOperation<
                 UpdateUserMutation,
                 UpdateUserMutationVariables
             >({
                 query: UPDATE_USER,
                 variables: {
-                    input,
+                    input: {
+                        email: faker.internet.email(),
+                        firstName: faker.name.firstName(),
+                        id: faker.datatype.uuid(),
+                        lastName: faker.name.lastName(),
+                        oib: faker.datatype.string(OIB_LENGTH),
+                        phoneNumber: faker.phone.number(),
+                    },
                 },
             })
 
