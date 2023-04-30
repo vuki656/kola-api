@@ -48,7 +48,7 @@ import {
     USERS,
 } from './queries.graphql'
 
-describe.skip('User resolver', () => {
+describe('User resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
     })

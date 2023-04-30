@@ -38,13 +38,12 @@ import {
     LISTINGS,
 } from './queries.graphql'
 
-// TODO: remove only
 describe('Listing resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
     })
 
-    describe.only('when `listing` query is called', () => {
+    describe('when `listing` query is called', () => {
         it('should return listing', async () => {
             const listing = await ListingFactory.create()
 
@@ -88,7 +87,7 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe.only('when `listing` `author` field resolver is called', () => {
+    describe('when `listing` `author` field resolver is called', () => {
         it('should return listing author', async () => {
             const author = await UserFactory.create()
             const listing = await ListingFactory.create({
@@ -137,7 +136,7 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe.only('when `deleteListing` mutation is called', () => {
+    describe('when `deleteListing` mutation is called', () => {
         it('should delete the listing', async () => {
             const author = await UserFactory.create()
             const listing = await ListingFactory.create({
@@ -213,21 +212,49 @@ describe('Listing resolver', () => {
         it('should return listings', async () => {
             const COUNT = 20
 
-            await ListingFactory.createMany(20)
+            const author = await UserFactory.create()
+            await ListingFactory.createMany(20, {
+                author: {
+                    connect: {
+                        id: author.id,
+                    },
+                },
+            })
 
             const response = await executeOperation<
                 ListingsQuery,
                 ListingsQueryVariables
             >({
+                permission: 'user',
                 query: LISTINGS,
+                user: {
+                    id: author.id,
+                },
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
             expect(response.body?.singleResult.data?.listings).toHaveLength(COUNT)
         })
+
+        it('should return AUTHENTICATION error if not logged in', async () => {
+            const response = await executeOperation<
+                DeleteListingMutation,
+                DeleteListingMutationVariables
+            >({
+                query: DELETE_LISTING,
+                variables: {
+                    input: {
+                        id: faker.datatype.uuid(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
     })
 
-    describe.only('when `createListing` mutation is called', () => {
+    describe('when `createListing` mutation is called', () => {
         it('should create listing', async () => {
             const author = await UserFactory.create()
 
@@ -280,7 +307,7 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe.only('when `updateListing` mutation is called', () => {
+    describe('when `updateListing` mutation is called', () => {
         it('should update listing', async () => {
             const author = await UserFactory.create()
             const listing = await ListingFactory.create({
