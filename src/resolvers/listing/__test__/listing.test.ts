@@ -38,7 +38,7 @@ import {
     LISTINGS,
 } from './queries.graphql'
 
-// TODO: remove onlys
+// TODO: remove only
 describe('Listing resolver', () => {
     beforeEach(async () => {
         await wipeDatabase()
@@ -181,7 +181,7 @@ describe('Listing resolver', () => {
         })
     })
 
-    describe('when `createListing` mutation is called', () => {
+    describe.only('when `createListing` mutation is called', () => {
         it('should create listing', async () => {
             const author = await UserFactory.create()
 
@@ -195,7 +195,11 @@ describe('Listing resolver', () => {
                 CreateListingMutation,
                 CreateListingMutationVariables
             >({
+                permission: 'user',
                 query: CREATE_LISTING,
+                user: {
+                    id: author.id,
+                },
                 variables: {
                     input,
                 },
@@ -208,6 +212,25 @@ describe('Listing resolver', () => {
                 price: input.price,
                 title: input.title,
             })
+        })
+
+        it('should throw an AUTHORIZATION error if not logged in', async () => {
+            const response = await executeOperation<
+                CreateListingMutation,
+                CreateListingMutationVariables
+            >({
+                query: CREATE_LISTING,
+                variables: {
+                    input: {
+                        description: faker.lorem.word(),
+                        price: faker.datatype.number(),
+                        title: faker.lorem.word(),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.AUTHENTICATION)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 

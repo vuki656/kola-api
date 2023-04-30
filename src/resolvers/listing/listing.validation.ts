@@ -2,9 +2,6 @@ import { z } from 'zod'
 
 export const createListingMutationValidation = z.object({
     input: z.object({
-        authorId: z
-            .string()
-            .uuid(),
         description: z.string(),
         price: z
             .number()
