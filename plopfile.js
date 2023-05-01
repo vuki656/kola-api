@@ -1,13 +1,9 @@
-const getMonth = require('date-fns/getMonth')
-const getUnixTime = require('date-fns/getUnixTime')
-const getYear = require('date-fns/getYear')
+const dayjs = require('dayjs')
 
 const actions = (/** @type { import('plop').NodePlopAPI } */ plop) => {
-    const date = new Date()
-
-    const year = getYear(date)
-    const month = getMonth(date) + 1
-    const timestamp = getUnixTime(date)
+    const year = dayjs().year()
+    const month = dayjs().month()
+    const timestamp = dayjs().unix()
 
     plop.setHelper('timestamp', timestamp)
 
