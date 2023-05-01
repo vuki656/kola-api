@@ -8,7 +8,7 @@ void orm
         ...userSeed,
     ])
     .then(() => {
-        logger.info("Seed successful")
+        logger.info('Seed successful')
     })
     .catch((error: unknown) => {
         logger.error(error)
@@ -16,7 +16,7 @@ void orm
         process.exit()
     })
     .finally(() => {
-        logger.info("Seed finished")
+        logger.info('Seed finished')
 
         void orm.$disconnect()
     })

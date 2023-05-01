@@ -135,13 +135,13 @@ const UserResolver: UserModule.Resolvers = {
             })
 
             if (!user) {
-                throw new InputError('Wrong username or password')
+                throw new InputError('Wrong email or password')
             }
 
             const isPasswordValid = await compare(input.password, user.password)
 
             if (!isPasswordValid) {
-                throw new InputError('Wrong username or password')
+                throw new InputError('Wrong email or password')
             }
 
             const token = UserUtils.signToken({

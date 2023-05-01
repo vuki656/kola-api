@@ -18,6 +18,10 @@
         "datasource",
         "tablename",
         "schemaname",
-        "varchar"
+        "varchar",
+        "domagoj",
+        "vukovic",
+        "filip",
+        "lukacevic"
     ]
 }
