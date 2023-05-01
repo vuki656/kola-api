@@ -1,22 +1,29 @@
 import { logger } from '../../shared/logger'
 import { orm } from '../../shared/orm'
+import { wipeDatabase } from '../../shared/test/utils'
 
 import { userSeed } from './user'
 
-void orm
-    .$transaction([
-        ...userSeed,
-    ])
-    .then(() => {
-        logger.info('Seed successful')
-    })
-    .catch((error: unknown) => {
-        logger.error(error)
+const seedDatabase = async () => {
+    await wipeDatabase()
 
-        process.exit()
-    })
-    .finally(() => {
-        logger.info('Seed finished')
+    await orm
+        .$transaction([
+            ...userSeed,
+        ])
+        .then(() => {
+            logger.info('Seed successful')
+        })
+        .catch((error: unknown) => {
+            logger.error(error)
 
-        void orm.$disconnect()
-    })
+            process.exit()
+        })
+        .finally(() => {
+            logger.info('Seed finished')
+
+            void orm.$disconnect()
+        })
+}
+
+void seedDatabase()

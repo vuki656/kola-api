@@ -1,8 +1,6 @@
 import { orm } from '../../shared/orm'
 import { UserFactory } from '../../shared/test/factories'
 
-const removeUsers = orm.user.deleteMany()
-
 const createUsers = orm.user.createMany({
     data: [
         {
@@ -29,6 +27,5 @@ const createUsers = orm.user.createMany({
 })
 
 export const userSeed = [
-    removeUsers,
     createUsers,
 ]
