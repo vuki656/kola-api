@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker'
 
-import { OIB_LENGTH } from '../../../shared/constants'
+import {
+    OIB_LENGTH,
+    PHONE_NUMBER_LENGTH,
+} from '../../../shared/constants'
 import { ErrorCode } from '../../../shared/errors'
 import {
     ListingFactory,
@@ -365,7 +368,7 @@ describe('User resolver', () => {
                 lastName: faker.name.lastName(),
                 oib: faker.datatype.string(OIB_LENGTH),
                 password: faker.internet.password(),
-                phoneNumber: faker.phone.number(),
+                phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
             }
 
             const response = await executeOperation<
@@ -379,6 +382,7 @@ describe('User resolver', () => {
             })
 
             expect(response.body?.singleResult.errors).toBeUndefined()
+            expect(response.body?.singleResult.data?.createUser.token).toStrictEqual(expect.any(String))
             expect(response.body?.singleResult.data?.createUser.user).toMatchObject<UserPayloadFragment>({
                 email: input.email,
                 firstName: input.firstName,
@@ -388,6 +392,54 @@ describe('User resolver', () => {
                 oib: input.oib,
                 phoneNumber: input.phoneNumber,
             })
+        })
+
+        it('should return INPUT error if user with email already exists', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                CreateUserMutation,
+                CreateUserMutationVariables
+            >({
+                query: CREATE_USER,
+                variables: {
+                    input: {
+                        email: user.email,
+                        firstName: faker.name.firstName(),
+                        lastName: faker.name.lastName(),
+                        oib: faker.datatype.string(OIB_LENGTH),
+                        password: faker.internet.password(),
+                        phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.INPUT)
+            expect(response.body?.singleResult.data).toBeNull()
+        })
+
+        it('should return INPUT error if user with OIB already exists', async () => {
+            const user = await UserFactory.create()
+
+            const response = await executeOperation<
+                CreateUserMutation,
+                CreateUserMutationVariables
+            >({
+                query: CREATE_USER,
+                variables: {
+                    input: {
+                        email: faker.internet.email(),
+                        firstName: faker.name.firstName(),
+                        lastName: faker.name.lastName(),
+                        oib: user.oib,
+                        password: faker.internet.password(),
+                        phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
+                    },
+                },
+            })
+
+            expect(response.body?.singleResult.errors?.[0]?.extensions?.code).toBe(ErrorCode.INPUT)
+            expect(response.body?.singleResult.data).toBeNull()
         })
     })
 
@@ -401,7 +453,7 @@ describe('User resolver', () => {
                 id: user.id,
                 lastName: faker.name.lastName(),
                 oib: faker.datatype.string(OIB_LENGTH),
-                phoneNumber: faker.phone.number(),
+                phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
             }
 
             const response = await executeOperation<
@@ -434,7 +486,7 @@ describe('User resolver', () => {
                 id: user.id,
                 lastName: faker.name.lastName(),
                 oib: faker.datatype.string(OIB_LENGTH),
-                phoneNumber: faker.phone.number(),
+                phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
             }
 
             const response = await executeOperation<
@@ -465,7 +517,7 @@ describe('User resolver', () => {
                         id: faker.datatype.uuid(),
                         lastName: faker.name.lastName(),
                         oib: faker.datatype.string(OIB_LENGTH),
-                        phoneNumber: faker.phone.number(),
+                        phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
                     },
                 },
             })

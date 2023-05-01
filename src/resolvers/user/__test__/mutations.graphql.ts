@@ -5,6 +5,7 @@ import { USER_FRAGMENT } from './fragments.graphql'
 export const CREATE_USER = gql`
     mutation CreateUser($input: CreateUserInput!) {
         createUser(input: $input) {
+            token
             user {
                 ...UserPayload
             }

@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker'
 import type { Prisma } from '@prisma/client'
 
-import { OIB_LENGTH } from '../../constants'
+import {
+    OIB_LENGTH,
+    PHONE_NUMBER_LENGTH,
+} from '../../constants'
 import { orm } from '../../orm'
 
 export const UserFactory = {
@@ -13,7 +16,7 @@ export const UserFactory = {
             lastName: faker.name.lastName(),
             oib: faker.datatype.string(OIB_LENGTH),
             password: UserFactory.password.hash,
-            phoneNumber: faker.phone.number(),
+            phoneNumber: faker.datatype.string(PHONE_NUMBER_LENGTH),
             updatedAt: new Date(),
             ...input,
         } satisfies Prisma.UserCreateInput

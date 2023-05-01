@@ -5,7 +5,6 @@ import {
     PHONE_NUMBER_LENGTH,
 } from '../../shared/constants'
 
-// TODO: valid oib validation
 const oibValidation = z.string().length(OIB_LENGTH)
 const phoneNumberValidation = z.string().length(PHONE_NUMBER_LENGTH)
 
