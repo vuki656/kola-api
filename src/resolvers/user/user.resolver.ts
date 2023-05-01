@@ -2,12 +2,9 @@ import {
     compare,
     hash,
 } from 'bcrypt'
-import { sign } from 'jsonwebtoken'
 
-import { env } from '../../shared/env'
 import { InputError } from '../../shared/errors'
 import { orm } from '../../shared/orm'
-import type { TokenDataType } from '../../shared/types'
 import { checkPermissions } from '../../shared/utils'
 
 import type { UserModule } from './resolver-types.generated'
@@ -90,9 +87,26 @@ const UserResolver: UserModule.Resolvers = {
                     phoneNumber: input.phoneNumber,
                     updatedAt: new Date(),
                 },
+                include: {
+                    listings: true,
+                },
+            })
+
+            // TODO: test
+            const token = UserUtils.signToken({
+                user: {
+                    ...user,
+                    listings: user.listings.map((listing) => {
+                        return {
+                            ...listing,
+                            price: listing.price.toNumber(),
+                        }
+                    }),
+                },
             })
 
             return {
+                token,
                 user,
             }
         },
@@ -133,7 +147,7 @@ const UserResolver: UserModule.Resolvers = {
                 throw new InputError('Wrong username or password')
             }
 
-            const tokenData: TokenDataType = {
+            const token = UserUtils.signToken({
                 user: {
                     ...user,
                     listings: user.listings.map((listing) => {
@@ -143,13 +157,7 @@ const UserResolver: UserModule.Resolvers = {
                         }
                     }),
                 },
-            }
-
-            const token = sign(
-                tokenData,
-                env.APP_JWT_SECRET,
-                { expiresIn: env.APP_JWT_DURATION_SEC }
-            )
+            })
 
             return {
                 token,
