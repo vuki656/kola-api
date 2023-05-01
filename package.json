@@ -7,6 +7,7 @@
     "license": "UNLICENSED",
     "scripts": {
         "database:migrate": "docker compose run --no-deps --rm migration",
+        "database:seed": "prisma db seed",
         "database:setup": "docker compose run --rm migration",
         "database:sync": "prisma db pull && prettier --write './src/database/schema.prisma'",
         "dev": "nodemon",
@@ -75,6 +76,7 @@
     },
     "packageManager": "yarn@3.5.0",
     "prisma": {
-        "schema": "./src/database/schema.prisma"
+        "schema": "./src/database/schema.prisma",
+        "seed": "ts-node ./src/database/seed/index.ts"
     }
 }
