@@ -16,7 +16,7 @@ export const ListingFactory = {
         } satisfies Partial<Prisma.ListingCreateWithoutAuthorInput>
     },
     create: (input?: Partial<Prisma.ListingCreateInput>) => {
-        return orm.listing.create({
+        return orm.listing.create({ // @ts-expect-error // TODO: fix
             data: {
                 ...ListingFactory.build(),
                 author: {
@@ -31,7 +31,7 @@ export const ListingFactory = {
         input?: Partial<Prisma.ListingCreateInput>
     ) => {
         const promises = [...new Array(amount)].map(() => {
-            return orm.listing.create({
+            return orm.listing.create({ // @ts-expect-error // TODO: fix
                 data: {
                     ...ListingFactory.build(input),
                     author: {

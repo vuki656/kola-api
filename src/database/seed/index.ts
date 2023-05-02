@@ -2,6 +2,7 @@ import { logger } from '../../shared/logger'
 import { orm } from '../../shared/orm'
 import { wipeDatabase } from '../../shared/test/utils'
 
+import { makeSeed } from './makes'
 import { userSeed } from './user'
 
 const seedDatabase = async () => {
@@ -10,6 +11,7 @@ const seedDatabase = async () => {
     await orm
         .$transaction([
             ...userSeed,
+            ...makeSeed,
         ])
         .then(() => {
             logger.info('Seed successful')
