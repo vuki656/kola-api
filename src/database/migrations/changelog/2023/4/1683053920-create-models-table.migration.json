@@ -2,18 +2,18 @@
     "$schema": "https://json.schemastore.org/liquibase-3.2.json",
     "databaseChangeLog": [
         {
-            "logicalFilePath": "1682448563-create-listing-table.migration.json",
+            "logicalFilePath": "1683053920-create-models-table.migration.json",
             "objectQuotingStrategy": "QUOTE_ALL_OBJECTS"
         },
         {
             "changeSet": {
-                "id": "1682448563",
+                "id": "1683053920",
                 "author": "off.vukovic@gmail.com",
-                "comment": "create-listing-table",
+                "comment": "create-models-table",
                 "changes": [
                     {
                         "createTable": {
-                            "tableName": "listings",
+                            "tableName": "models",
                             "columns": [
                                 {
                                     "column": {
@@ -28,7 +28,7 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "title",
+                                        "name": "name",
                                         "type": "text",
                                         "constraints": {
                                             "nullable": false
@@ -37,25 +37,7 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "description",
-                                        "type": "text",
-                                        "constraints": {
-                                            "nullable": false
-                                        }
-                                    }
-                                },
-                                {
-                                    "column": {
-                                        "name": "price",
-                                        "type": "money",
-                                        "constraints": {
-                                            "nullable": false
-                                        }
-                                    }
-                                },
-                                {
-                                    "column": {
-                                        "name": "user_fk",
+                                        "name": "make_fk",
                                         "type": "uuid",
                                         "constraints": {
                                             "nullable": false
@@ -86,15 +68,15 @@
                     },
                     {
                         "addForeignKeyConstraint": {
-                            "baseColumnNames": "user_fk",
-                            "baseTableName": "listings",
-                            "constraintName": "FK_listings__users",
+                            "baseColumnNames": "make_fk",
+                            "baseTableName": "models",
+                            "constraintName": "FK_models__makes",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "users"
+                            "referencedTableName": "makes"
                         }
                     }
                 ]
