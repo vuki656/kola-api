@@ -9,7 +9,7 @@
             "changeSet": {
                 "id": "1683054463",
                 "author": "off.vukovic@gmail.com",
-                "comment": "create-engine-type-table",
+                "comment": "create-engine-types-table",
                 "changes": [
                     {
                         "createTable": {
