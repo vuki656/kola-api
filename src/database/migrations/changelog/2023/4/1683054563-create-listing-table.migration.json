@@ -143,6 +143,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "ecology_category_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "transmission_type_fk",
                                         "type": "uuid",
                                         "constraints": {
@@ -269,6 +278,19 @@
                             "baseColumnNames": "vehicle_type_fk",
                             "baseTableName": "listings",
                             "constraintName": "FK_listings__vehicle_types",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "vehicle_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "ecology_category_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__ecology_categories",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
