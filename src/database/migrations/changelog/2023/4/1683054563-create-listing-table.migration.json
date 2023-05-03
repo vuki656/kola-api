@@ -38,7 +38,16 @@
                                 {
                                     "column": {
                                         "name": "year",
-                                        "type": "SMALLINT",
+                                        "type": "smallint",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "odometer",
+                                        "type": "integer",
                                         "constraints": {
                                             "nullable": false
                                         }
