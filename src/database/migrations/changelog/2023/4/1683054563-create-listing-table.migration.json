@@ -143,6 +143,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "vehicle_type_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "created_at",
                                         "type": "timestamp",
                                         "defaultValueComputed": "timezone('utc', now())",
@@ -226,6 +235,19 @@
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
                             "referencedTableName": "transmission_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "vehicle_type_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__vehicle_types",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "vehicle_types"
                         }
                     }
                 ]
