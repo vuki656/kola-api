@@ -62,6 +62,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "registered_until",
+                                        "type": "timestamp",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "odometer",
                                         "type": "integer",
                                         "constraints": {
