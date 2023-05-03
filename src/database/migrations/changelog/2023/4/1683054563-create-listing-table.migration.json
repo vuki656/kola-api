@@ -100,6 +100,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "engine_type_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "created_at",
                                         "type": "timestamp",
                                         "defaultValueComputed": "timezone('utc', now())",
@@ -157,6 +166,19 @@
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
                             "referencedTableName": "models"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "engine_type_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__engine_type",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "engine_typmodelse"
                         }
                     }
                 ]
