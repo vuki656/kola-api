@@ -13,7 +13,7 @@
                 "changes": [
                     {
                         "createTable": {
-                            "tableName": "engine_type",
+                            "tableName": "engine_types",
                             "columns": [
                                 {
                                     "column": {

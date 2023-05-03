@@ -12,6 +12,13 @@
                 "comment": "create-listing-table",
                 "changes": [
                     {
+                        "sql": {
+                            "splitStatements": true,
+                            "comment": "Create enum for engine power",
+                            "sql": "CREATE TYPE engine_power_type AS ENUM ('HP', 'KW');"
+                        }
+                    },
+                    {
                         "createTable": {
                             "tableName": "listings",
                             "columns": [
@@ -48,6 +55,24 @@
                                     "column": {
                                         "name": "odometer",
                                         "type": "integer",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "engine_power_value",
+                                        "type": "integer",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "engine_power_type",
+                                        "type": "engine_power_type",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -172,13 +197,13 @@
                         "addForeignKeyConstraint": {
                             "baseColumnNames": "engine_type_fk",
                             "baseTableName": "listings",
-                            "constraintName": "FK_listings__engine_type",
+                            "constraintName": "FK_listings__engine_types",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "engine_typmodelse"
+                            "referencedTableName": "engine_types"
                         }
                     }
                 ]
