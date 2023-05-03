@@ -116,6 +116,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "transmission_type_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "model_fk",
                                         "type": "uuid",
                                         "constraints": {
@@ -204,6 +213,19 @@
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
                             "referencedTableName": "engine_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "transmission_type_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__transmission_types",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "transmission_types"
                         }
                     }
                 ]
