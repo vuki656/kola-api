@@ -37,6 +37,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "year",
+                                        "type": "SMALLINT",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "description",
                                         "type": "text",
                                         "constraints": {
