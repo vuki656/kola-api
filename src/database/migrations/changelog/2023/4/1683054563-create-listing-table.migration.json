@@ -44,6 +44,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "vin",
+                                        "type": "char(17)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "year",
                                         "type": "smallint",
                                         "constraints": {
