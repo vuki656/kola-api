@@ -161,6 +161,24 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "vehicle_exterior_color_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "vehicle_interior_color_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "model_fk",
                                         "type": "uuid",
                                         "constraints": {
@@ -287,6 +305,32 @@
                             "baseColumnNames": "vehicle_type_fk",
                             "baseTableName": "listings",
                             "constraintName": "FK_listings__vehicle_types",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "vehicle_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "vehicle_exterior_color_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__vehicle_colors",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "vehicle_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "vehicle_interior_color_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__vehicle_colors",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
