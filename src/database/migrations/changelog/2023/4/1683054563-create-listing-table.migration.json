@@ -335,7 +335,7 @@
                         "addForeignKeyConstraint": {
                             "baseColumnNames": "vehicle_exterior_color_fk",
                             "baseTableName": "listings",
-                            "constraintName": "FK_listings__vehicle_colors",
+                            "constraintName": "FK_listings__vehicle_colors_exterior",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
@@ -348,7 +348,7 @@
                         "addForeignKeyConstraint": {
                             "baseColumnNames": "vehicle_interior_color_fk",
                             "baseTableName": "listings",
-                            "constraintName": "FK_listings__vehicle_colors",
+                            "constraintName": "FK_listings__vehicle_colors_interior",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
@@ -367,7 +367,7 @@
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "vehicle_drive_types"
+                            "referencedTableName": "wheel_drive_types"
                         }
                     },
                     {

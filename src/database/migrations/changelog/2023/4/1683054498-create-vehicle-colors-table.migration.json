@@ -13,7 +13,7 @@
                 "changes": [
                     {
                         "createTable": {
-                            "tableName": "vehicle_color",
+                            "tableName": "vehicle_colors",
                             "columns": [
                                 {
                                     "column": {
