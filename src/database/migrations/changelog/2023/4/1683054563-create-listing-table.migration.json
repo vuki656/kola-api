@@ -134,6 +134,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "payment_method_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "user_fk",
                                         "type": "uuid",
                                         "constraints": {
@@ -359,6 +368,19 @@
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
                             "referencedTableName": "vehicle_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "payment_method_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__payment_methods",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "payment_methods"
                         }
                     },
                     {

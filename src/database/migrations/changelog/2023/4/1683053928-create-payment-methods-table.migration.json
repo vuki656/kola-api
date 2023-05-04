@@ -1,0 +1,64 @@
+{
+    "$schema": "https://json.schemastore.org/liquibase-3.2.json",
+    "databaseChangeLog": [
+        {
+            "logicalFilePath": "1683053920-create-models-table.migration.json",
+            "objectQuotingStrategy": "QUOTE_ALL_OBJECTS"
+        },
+        {
+            "changeSet": {
+                "id": "1683053928",
+                "author": "off.vukovic@gmail.com",
+                "comment": "create-payment-methods-table",
+                "changes": [
+                    {
+                        "createTable": {
+                            "tableName": "payment_methods",
+                            "columns": [
+                                {
+                                    "column": {
+                                        "name": "id",
+                                        "type": "uuid",
+                                        "defaultValueComputed": "public.uuid_generate_v4()",
+                                        "constraints": {
+                                            "nullable": false,
+                                            "primaryKey": true
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "name",
+                                        "type": "text",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "created_at",
+                                        "type": "timestamp",
+                                        "defaultValueComputed": "timezone('utc', now())",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "updated_at",
+                                        "type": "timestamp",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
