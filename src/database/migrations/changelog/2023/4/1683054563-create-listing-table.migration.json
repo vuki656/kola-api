@@ -62,6 +62,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "co2_emissions",
+                                        "type": "integer",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "owner_count",
                                         "type": "integer",
                                         "constraints": {
