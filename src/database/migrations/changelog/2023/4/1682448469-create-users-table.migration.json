@@ -66,7 +66,7 @@
                                 {
                                     "column": {
                                         "name": "phone_number",
-                                        "type": "CHAR(10)",
+                                        "type": "char(10)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -75,7 +75,7 @@
                                 {
                                     "column": {
                                         "name": "oib",
-                                        "type": "CHAR(11)",
+                                        "type": "char(11)",
                                         "constraints": {
                                             "nullable": false,
                                             "unique": true

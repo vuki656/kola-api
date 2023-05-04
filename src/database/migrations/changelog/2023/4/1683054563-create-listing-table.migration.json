@@ -89,6 +89,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "engine_volume",
+                                        "type": "integer",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "engine_power_value",
                                         "type": "integer",
                                         "constraints": {
