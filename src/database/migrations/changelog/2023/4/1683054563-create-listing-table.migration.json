@@ -341,7 +341,7 @@
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "vehicle_types"
+                            "referencedTableName": "vehicle_colors"
                         }
                     },
                     {
@@ -354,7 +354,7 @@
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "vehicle_types"
+                            "referencedTableName": "vehicle_colors"
                         }
                     },
                     {
@@ -367,7 +367,7 @@
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "vehicle_types"
+                            "referencedTableName": "vehicle_drive_types"
                         }
                     },
                     {
@@ -393,7 +393,7 @@
                             "onDelete": "RESTRICT",
                             "onUpdate": "RESTRICT",
                             "referencedColumnNames": "id",
-                            "referencedTableName": "vehicle_types"
+                            "referencedTableName": "ecology_categories"
                         }
                     }
                 ]
