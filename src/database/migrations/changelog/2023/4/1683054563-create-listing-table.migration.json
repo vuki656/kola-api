@@ -188,6 +188,15 @@
                                 },
                                 {
                                     "column": {
+                                        "name": "wheel_drive_type_fk",
+                                        "type": "uuid",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
                                         "name": "created_at",
                                         "type": "timestamp",
                                         "defaultValueComputed": "timezone('utc', now())",
@@ -278,6 +287,19 @@
                             "baseColumnNames": "vehicle_type_fk",
                             "baseTableName": "listings",
                             "constraintName": "FK_listings__vehicle_types",
+                            "deferrable": true,
+                            "initiallyDeferred": true,
+                            "onDelete": "RESTRICT",
+                            "onUpdate": "RESTRICT",
+                            "referencedColumnNames": "id",
+                            "referencedTableName": "vehicle_types"
+                        }
+                    },
+                    {
+                        "addForeignKeyConstraint": {
+                            "baseColumnNames": "wheel_drive_type_fk",
+                            "baseTableName": "listings",
+                            "constraintName": "FK_listings__wheel_drive_types",
                             "deferrable": true,
                             "initiallyDeferred": true,
                             "onDelete": "RESTRICT",
