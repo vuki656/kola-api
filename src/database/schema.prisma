@@ -8,24 +8,42 @@ datasource db {
 }
 
 model Listing {
-    id               String          @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
-    title            String
-    year             Int             @db.SmallInt
-    odometer         Int
-    enginePowerValue Int             @map("engine_power_value")
-    enginePowerType  EnginePowerType
-    description      String
-    price            Decimal         @db.Decimal
-    userFk           String          @map("user_fk") @db.Uuid
-    makeFk           String          @map("make_fk") @db.Uuid
-    modelFk          String          @map("model_fk") @db.Uuid
-    engineTypeFk     String          @map("engine_type_fk") @db.Uuid
-    createdAt        DateTime        @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
-    updatedAt        DateTime        @map("updated_at") @db.Timestamp(6)
-    engineType       EngineType      @relation(fields: [engineTypeFk], references: [id], onUpdate: Restrict, map: "FK_listings__engine_type")
-    make             Make            @relation(fields: [makeFk], references: [id], onUpdate: Restrict, map: "FK_listings__makes")
-    model            Model           @relation(fields: [modelFk], references: [id], onUpdate: Restrict, map: "FK_listings__models")
-    author           User            @relation(fields: [userFk], references: [id], onUpdate: Restrict, map: "FK_listings__users")
+    id                     String           @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    title                  String
+    vin                    String           @db.Char(17)
+    year                   Int              @db.SmallInt
+    ownerCount             Int              @map("owner_count")
+    registeredUntil        DateTime         @map("registered_until") @db.Timestamp(6)
+    odometer               Int
+    engineVolume           Int              @map("engine_volume")
+    enginePowerValue       Int              @map("engine_power_value")
+    enginePowerType        EnginePowerType
+    description            String
+    price                  Decimal          @db.Decimal
+    paymentMethodFk        String           @map("payment_method_fk") @db.Uuid
+    userFk                 String           @map("user_fk") @db.Uuid
+    makeFk                 String           @map("make_fk") @db.Uuid
+    ecologyCategoryFk      String           @map("ecology_category_fk") @db.Uuid
+    transmissionTypeFk     String           @map("transmission_type_fk") @db.Uuid
+    vehicleExteriorColorFk String           @map("vehicle_exterior_color_fk") @db.Uuid
+    vehicleInteriorColorFk String           @map("vehicle_interior_color_fk") @db.Uuid
+    modelFk                String           @map("model_fk") @db.Uuid
+    engineTypeFk           String           @map("engine_type_fk") @db.Uuid
+    vehicleTypeFk          String           @map("vehicle_type_fk") @db.Uuid
+    wheelDriveTypeFk       String           @map("wheel_drive_type_fk") @db.Uuid
+    createdAt              DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt              DateTime         @map("updated_at") @db.Timestamp(6)
+    ecologyCategory        EcologyCategory  @relation(fields: [ecologyCategoryFk], references: [id], onUpdate: Restrict, map: "FK_listings__ecology_categories")
+    engineType             EngineType       @relation(fields: [engineTypeFk], references: [id], onUpdate: Restrict, map: "FK_listings__engine_type")
+    make                   Make             @relation(fields: [makeFk], references: [id], onUpdate: Restrict, map: "FK_listings__makes")
+    model                  Model            @relation(fields: [modelFk], references: [id], onUpdate: Restrict, map: "FK_listings__models")
+    paymentMethod          PaymentMethod    @relation(fields: [paymentMethodFk], references: [id], onUpdate: Restrict, map: "FK_listings__payment_methods")
+    transmissionType       TransmissionType @relation(fields: [transmissionTypeFk], references: [id], onUpdate: Restrict, map: "FK_listings__transmission_types")
+    author                 User             @relation(fields: [userFk], references: [id], onUpdate: Restrict, map: "FK_listings__users")
+    exteriorColor          VehicleColor     @relation("listings_vehicle_exterior_color_fk", fields: [vehicleExteriorColorFk], references: [id], onUpdate: Restrict, map: "FK_listings__vehicle_colors_exterior")
+    interiorColor          VehicleColor     @relation("listings_vehicle_interior_color_fk", fields: [vehicleInteriorColorFk], references: [id], onUpdate: Restrict, map: "FK_listings__vehicle_colors_interior")
+    vehicleType            VehicleType      @relation(fields: [vehicleTypeFk], references: [id], onUpdate: Restrict, map: "FK_listings__vehicle_types")
+    wheelDriveType         WheelDriveType   @relation(fields: [wheelDriveTypeFk], references: [id], onUpdate: Restrict, map: "FK_listings__wheel_drive_types")
 
     @@map("listings")
 }
@@ -77,6 +95,67 @@ model EngineType {
     listings  Listing[]
 
     @@map("engine_types")
+}
+
+model EcologyCategory {
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name      String
+    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
+    listings  Listing[]
+
+    @@map("ecology_categories")
+}
+
+model PaymentMethod {
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name      String
+    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
+    listings  Listing[]
+
+    @@map("payment_methods")
+}
+
+model TransmissionType {
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name      String
+    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
+    listings  Listing[]
+
+    @@map("transmission_types")
+}
+
+model VehicleColor {
+    id               String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name             String
+    createdAt        DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt        DateTime  @map("updated_at") @db.Timestamp(6)
+    listingsExterior Listing[] @relation("listings_vehicle_exterior_color_fk")
+    listingsInterior Listing[] @relation("listings_vehicle_interior_color_fk")
+
+    @@map("vehicle_colors")
+}
+
+model VehicleType {
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name      String
+    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
+    listings  Listing[]
+
+    @@map("vehicle_types")
+}
+
+model WheelDriveType {
+    id        String    @id @default(dbgenerated("public.uuid_generate_v4()")) @db.Uuid
+    name      String
+    createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime  @map("updated_at") @db.Timestamp(6)
+    listings  Listing[]
+
+    @@map("wheel_drive_types")
 }
 
 enum EnginePowerType {
