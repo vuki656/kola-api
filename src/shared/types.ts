@@ -1,4 +1,4 @@
-import type { TokenUser } from '../../server'
+import type { TokenUser } from '../server'
 
 export type TokenDataType = {
     user: TokenUser

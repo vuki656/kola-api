@@ -1,7 +1,6 @@
 import { orm } from '../../shared/orm'
 import { checkPermissions } from '../../shared/utils'
 
-import { ListingUtils } from './listing.utils'
 import {
     createListingMutationValidation,
     deleteListingMutationValidation,
@@ -32,7 +31,7 @@ const ListingResolver: ListingModule.Resolvers = {
 
             const { input } = createListingMutationValidation.parse(variables)
 
-            const listing = await orm.listing.create({ // @ts-expect-error // TODO: fix
+            const listing = await orm.listing.create({
                 data: {
                     author: {
                         connect: {
@@ -55,11 +54,12 @@ const ListingResolver: ListingModule.Resolvers = {
 
             const { input } = deleteListingMutationValidation.parse(variables)
 
-            ListingUtils.checkUserOwnsListing(context, input.id)
-
             const listing = await orm.listing.delete({
                 where: {
                     id: input.id,
+                    author: {
+                        id: context.user.nonNullValue.id
+                    }
                 },
             })
 
@@ -72,8 +72,6 @@ const ListingResolver: ListingModule.Resolvers = {
 
             const { input } = updateListingMutationValidation.parse(variables)
 
-            ListingUtils.checkUserOwnsListing(context, input.id)
-
             const listing = await orm.listing.update({
                 data: {
                     description: input.description,
@@ -83,6 +81,9 @@ const ListingResolver: ListingModule.Resolvers = {
                 },
                 where: {
                     id: input.id,
+                    author: {
+                        id: context.user.nonNullValue.id
+                    }
                 },
             })
 
